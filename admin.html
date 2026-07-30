@@ -31,6 +31,7 @@
     text-decoration: none;
     font-size: 1rem;
   }
+  .admin-head .head-right { display: flex; align-items: center; gap: 12px; }
   .admin-head span.tag {
     font-size: .75rem;
     font-weight: 500;
@@ -39,6 +40,18 @@
     padding: 4px 10px;
     border-radius: 999px;
   }
+  .admin-head button.logout {
+    display: none;
+    font-family: var(--font-kanit);
+    font-size: .8125rem;
+    color: var(--slate);
+    background: none;
+    border: 0;
+    padding: 4px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .admin-head button.logout:hover { color: var(--brand-red); }
 
   main { padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 40px) 96px; }
   .wrap { max-width: 1100px; margin-inline: auto; }
@@ -65,25 +78,32 @@
   }
   .gate input:focus { outline: none; border-color: var(--navy); }
   .gate .btn { width: 100%; border: 0; cursor: pointer; }
-  .gate__error { display: none; color: #A32626; font-size: .875rem; margin-bottom: 12px; }
+  .gate .btn:disabled { opacity: .6; cursor: wait; }
+  .gate__error { display: none; color: #A32626; font-size: .875rem; margin-bottom: 12px; line-height: 1.6; }
   .gate__error[data-show="true"] { display: block; }
 
-  /* ---- Warning banner: the whole point is that this is NOT a real inbox ---- */
-  .warn {
+  /* ---- Notice blocks ---- */
+  .notice {
     display: flex;
     gap: 12px;
     align-items: flex-start;
-    background: #FFF6E8;
-    border: 1px solid #F3DDAE;
-    color: #7A5B15;
     border-radius: 10px;
     padding: 14px 18px;
     font-size: .875rem;
     line-height: 1.7;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
-  .warn svg { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
-  .warn strong { display: block; margin-bottom: 2px; }
+  .notice svg { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+  .notice strong { display: block; margin-bottom: 2px; }
+  .notice code {
+    background: rgba(0,0,0,.06);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: .9em;
+  }
+  .notice--warn  { background: #FFF6E8; border: 1px solid #F3DDAE; color: #7A5B15; }
+  .notice--error { background: #FCEEEE; border: 1px solid #F3C9C9; color: #A32626; }
+  .notice[hidden] { display: none; }
 
   /* ---- Toolbar ---- */
   .toolbar {
@@ -112,6 +132,7 @@
   .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; }
 
   .tool-actions { display: flex; gap: 10px; }
+  .tool-actions a,
   .tool-actions button {
     font-family: var(--font-kanit);
     font-size: .8125rem;
@@ -122,14 +143,33 @@
     border-radius: 8px;
     padding: 8px 14px;
     cursor: pointer;
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 6px;
   }
+  .tool-actions a:hover,
   .tool-actions button:hover { border-color: var(--navy); }
-  .tool-actions button svg { width: 15px; height: 15px; stroke-width: 2; }
-  .tool-actions .danger { color: #A32626; }
-  .tool-actions .danger:hover { border-color: #A32626; }
+  .tool-actions svg { width: 15px; height: 15px; stroke-width: 2; }
+  .tool-actions [hidden] { display: none; }
+
+  /* Connection status line */
+  .status-line {
+    font-size: .8125rem;
+    color: var(--muted);
+    margin: -8px 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .status-line .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #C9CFD5;
+    flex: 0 0 auto;
+  }
+  .status-line[data-state="ok"]      .dot { background: #1E8A4C; }
+  .status-line[data-state="loading"] .dot { background: #C9891E; }
+  .status-line[data-state="error"]   .dot { background: #A32626; }
 
   /* ---- Table ---- */
   .table-wrap {
@@ -158,9 +198,9 @@
   }
   tbody tr:last-child td { border-bottom: 0; }
   tbody tr:hover { background: #FAFBFC; }
-  td a.phone { color: var(--navy); font-weight: 500; text-decoration: none; }
+  td a.phone { color: var(--navy); font-weight: 500; text-decoration: none; white-space: nowrap; }
   td a.phone:hover { color: var(--brand-red); }
-  .muted-cell { color: var(--muted); }
+  .muted-cell { color: var(--slate); }
 
   .status-btn {
     font-family: var(--font-kanit);
@@ -174,6 +214,7 @@
   }
   .status-btn[data-called="false"] { background: #FCEEEE; color: #A32626; border-color: #F3C9C9; }
   .status-btn[data-called="true"]  { background: #E9F6EE; color: #1E8A4C; border-color: #CBEAD7; }
+  .status-btn:disabled { opacity: .5; cursor: wait; }
 
   .type-badge {
     display: inline-block;
@@ -193,6 +234,9 @@
     font-size: .9375rem;
   }
   .empty svg { width: 34px; height: 34px; stroke-width: 1.6; color: var(--muted); margin-bottom: 12px; }
+
+  .setup-steps { margin: 10px 0 0; padding-left: 20px; }
+  .setup-steps li { margin-bottom: 4px; }
 </style>
 </head>
 
@@ -200,32 +244,48 @@
 
   <header class="admin-head">
     <a class="logo-link" href="index.html">SUPHAN MOTORSALE</a>
-    <span class="tag">สำหรับแอดมินเท่านั้น</span>
+    <div class="head-right">
+      <span class="tag">สำหรับแอดมินเท่านั้น</span>
+      <button type="button" class="logout" id="logout-btn">ออกจากระบบ</button>
+    </div>
   </header>
 
   <main>
     <div class="wrap">
 
-      <!-- ===================== PIN GATE ===================== -->
-      <div id="gate" class="gate">
+      <!-- ===================== SETUP NOTICE =====================
+           Shown only when config.js has no BOOKING_ENDPOINT yet. This
+           is the state the site ships in.
+      ======================================================== -->
+      <div id="setup-notice" class="notice notice--warn" hidden>
+        <i data-lucide="triangle-alert"></i>
+        <div>
+          <strong>ยังไม่ได้เชื่อมต่อระบบรับจอง</strong>
+          ขณะนี้เว็บไซต์ยังไม่ได้ตั้งค่าปลายทางสำหรับรับข้อมูลการจอง หน้านี้จึงยังไม่มีข้อมูลให้แสดง
+          และแบบฟอร์มจองจะแจ้งให้ลูกค้าโทรมาที่ร้านแทน
+          <ol class="setup-steps">
+            <li>ทำตามขั้นตอนในไฟล์ <code>scripts/apps-script/SETUP-TH.md</code></li>
+            <li>นำ URL ที่ได้ (ลงท้ายด้วย <code>/exec</code>) ไปใส่ในไฟล์ <code>config.js</code> ที่ช่อง <code>BOOKING_ENDPOINT</code></li>
+            <li>ตั้งรหัสผ่านแอดมินใน Apps Script ที่ <code>ADMIN_PASSPHRASE</code></li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- ===================== PASSPHRASE GATE ===================== -->
+      <div id="gate" class="gate" hidden>
         <h1>เข้าสู่ระบบแอดมิน</h1>
         <p>กรอกรหัสผ่านเพื่อดูรายการคำขอจอง</p>
-        <div id="gate-error" class="gate__error">รหัสผ่านไม่ถูกต้อง</div>
-        <input type="password" id="gate-pin" placeholder="รหัสผ่าน" autocomplete="off" />
+        <div id="gate-error" class="gate__error"></div>
+        <input type="password" id="gate-pin" placeholder="รหัสผ่าน" autocomplete="current-password" />
         <button class="btn" id="gate-submit">เข้าสู่ระบบ</button>
       </div>
 
       <!-- ===================== DASHBOARD ===================== -->
-      <div id="dash" style="display:none">
+      <div id="dash" hidden>
 
-        <div class="warn">
+        <div id="dash-error" class="notice notice--error" hidden>
           <i data-lucide="triangle-alert"></i>
-          <div>
-            <strong>ข้อมูลนี้บันทึกอยู่ในเบราว์เซอร์เครื่องนี้เท่านั้น</strong>
-            หากลูกค้ากรอกแบบฟอร์มจากมือถือหรือคอมพิวเตอร์เครื่องอื่น รายการจะ<strong>ไม่ปรากฏที่นี่</strong>
-            หน้านี้เป็นต้นแบบสำหรับทดสอบการใช้งานเท่านั้น — สำหรับใช้งานจริงที่แอดมินต้องเห็นข้อมูลจากทุกอุปกรณ์
-            จำเป็นต้องเชื่อมต่อกับระบบฐานข้อมูลกลาง (เช่น Google Sheet หรือเซิร์ฟเวอร์) ซึ่งยังไม่ได้ตั้งค่าไว้ในขณะนี้
-          </div>
+          <div><strong>โหลดข้อมูลไม่สำเร็จ</strong><span id="dash-error-msg"></span></div>
         </div>
 
         <div class="toolbar">
@@ -242,9 +302,13 @@
             </div>
             <div class="tool-actions">
               <button type="button" id="refresh-btn"><i data-lucide="refresh-cw"></i>รีเฟรช</button>
-              <button type="button" id="clear-btn" class="danger"><i data-lucide="trash-2"></i>ล้างข้อมูลทดสอบ</button>
+              <a id="sheet-link" href="#" target="_blank" rel="noopener" hidden><i data-lucide="table-2"></i>เปิด Google Sheet</a>
             </div>
           </div>
+        </div>
+
+        <div class="status-line" id="status-line" data-state="loading">
+          <span class="dot"></span><span id="status-text">กำลังโหลด…</span>
         </div>
 
         <div class="table-wrap">
@@ -261,11 +325,16 @@
             </thead>
             <tbody id="rows"></tbody>
           </table>
-          <div id="empty" class="empty" style="display:none">
+          <div id="empty" class="empty" hidden>
             <div><i data-lucide="inbox"></i></div>
             ยังไม่มีรายการจองในช่วงเวลานี้
           </div>
         </div>
+
+        <p class="status-line" style="margin-top:16px">
+          <span class="dot" style="background:transparent"></span>
+          ต้องการลบหรือแก้ไขรายการ? แก้ที่ Google Sheet โดยตรง — ชีตมีประวัติการแก้ไขและกู้คืนได้
+        </p>
 
       </div>
 
@@ -273,106 +342,248 @@
   </main>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script src="bookings.js"></script>
+  <script src="config.js?v=8"></script>
+  <script src="bookings.js?v=8"></script>
   <script>
   (function () {
     /* ------------------------------------------------------------
-       NOT REAL SECURITY. This PIN lives in plain text in this file
-       and is visible to anyone who views page source — it only
-       deters casual clicks, it does not protect customer data.
-       Swap for real auth before this ever handles real bookings.
-    ------------------------------------------------------------ */
-    const ADMIN_PIN = 'suphan2026';
-    const SESSION_KEY = 'suphan_admin_ok';
+       Auth note — this is a real change from the previous version.
 
+       The old page hard-coded the PIN 'suphan2026' in this file, so
+       anyone who viewed source could read it. A static site cannot
+       hold a secret, so the passphrase now lives ONLY in the Apps
+       Script backend (Script Property ADMIN_PASSPHRASE). Staff type
+       it, the server checks it, and it is held in sessionStorage just
+       for this tab. Nothing secret is in this repo.
+
+       It is still a single shared passphrase over the wire to a Google
+       endpoint — fine for a booking list, not fit for anything more
+       sensitive.
+    ------------------------------------------------------------ */
+    const PASS_KEY = 'suphan_admin_pass';
+    const REFRESH_MS = 60000;
+
+    const cfg = window.SUPHAN_CONFIG || {};
+    const B = window.SuphanBookings;
+
+    const setupNotice = document.getElementById('setup-notice');
     const gate = document.getElementById('gate');
     const dash = document.getElementById('dash');
     const pinInput = document.getElementById('gate-pin');
+    const gateBtn = document.getElementById('gate-submit');
     const gateError = document.getElementById('gate-error');
+    const logoutBtn = document.getElementById('logout-btn');
 
-    function enter() {
-      gate.style.display = 'none';
-      dash.style.display = '';
-      renderRows();
-    }
-
-    function tryPin() {
-      if (pinInput.value === ADMIN_PIN) {
-        sessionStorage.setItem(SESSION_KEY, '1');
-        enter();
-      } else {
-        gateError.dataset.show = 'true';
-        pinInput.select();
-      }
-    }
-
-    document.getElementById('gate-submit').addEventListener('click', tryPin);
-    pinInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryPin(); });
-    pinInput.addEventListener('input', function () { gateError.dataset.show = 'false'; });
-
-    if (sessionStorage.getItem(SESSION_KEY) === '1') enter();
-
-    /* ------------------------------------------------------------
-       Dashboard
-    ------------------------------------------------------------ */
-    let range = 'today';
-    let typeFilter = 'all';
     const rowsEl = document.getElementById('rows');
     const emptyEl = document.getElementById('empty');
     const countEl = document.getElementById('result-count');
+    const statusLine = document.getElementById('status-line');
+    const statusText = document.getElementById('status-text');
+    const dashError = document.getElementById('dash-error');
+    const dashErrorMsg = document.getElementById('dash-error-msg');
+
+    let pass = '';
+    let bookings = [];
+    let range = 'today';
+    let typeFilter = 'all';
+    let timer = null;
 
     const TYPE_LABELS = { 'test-drive': 'ทดลองขับ', 'service': 'จองบริการ' };
 
+    const ERROR_TEXT = {
+      not_configured: 'ยังไม่ได้ตั้งรหัสผ่านแอดมิน (ADMIN_PASSPHRASE) ในฝั่ง Apps Script',
+      unauthorized: 'รหัสผ่านไม่ถูกต้อง',
+      network: 'เชื่อมต่อกับเซิร์ฟเวอร์ไม่ได้ ตรวจสอบอินเทอร์เน็ตและ URL ในไฟล์ config.js',
+      timeout: 'เซิร์ฟเวอร์ไม่ตอบสนอง กรุณาลองอีกครั้ง',
+      server_error: 'เกิดข้อผิดพลาดที่เซิร์ฟเวอร์ ดูรายละเอียดใน Apps Script → Executions',
+      not_found: 'ไม่พบรายการนี้ (อาจถูกลบออกจากชีตแล้ว)'
+    };
+    function errText(code) {
+      return ERROR_TEXT[code] || ('เกิดข้อผิดพลาด: ' + code);
+    }
+
+    /* ------------------------------------------------------------
+       Boot
+    ------------------------------------------------------------ */
+    if (!B.configured()) {
+      setupNotice.hidden = false;
+      if (window.lucide) lucide.createIcons();
+      return;   // nothing else on this page can work yet
+    }
+
+    if (cfg.SHEET_URL) {
+      const link = document.getElementById('sheet-link');
+      link.href = cfg.SHEET_URL;
+      link.hidden = false;
+    }
+
+    const saved = sessionStorage.getItem(PASS_KEY);
+    if (saved) {
+      pass = saved;
+      enter();
+    } else {
+      gate.hidden = false;
+      pinInput.focus();
+    }
+
+    /* ------------------------------------------------------------
+       Gate. The passphrase is verified by actually asking the server
+       for the list — no separate auth round-trip.
+    ------------------------------------------------------------ */
+    function showGateError(msg) {
+      gateError.textContent = msg;
+      gateError.dataset.show = 'true';
+    }
+
+    function tryPass() {
+      const val = pinInput.value;
+      if (!val) return;
+
+      gateBtn.disabled = true;
+      gateBtn.textContent = 'กำลังตรวจสอบ…';
+      gateError.dataset.show = 'false';
+
+      B.list(val).then(function (res) {
+        gateBtn.disabled = false;
+        gateBtn.textContent = 'เข้าสู่ระบบ';
+
+        if (!res.ok) {
+          showGateError(errText(res.error));
+          pinInput.select();
+          return;
+        }
+        pass = val;
+        sessionStorage.setItem(PASS_KEY, pass);
+        gate.hidden = true;
+        applyList(res);
+        startDash();
+      });
+    }
+
+    gateBtn.addEventListener('click', tryPass);
+    pinInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryPass(); });
+    pinInput.addEventListener('input', function () { gateError.dataset.show = 'false'; });
+
+    logoutBtn.addEventListener('click', function () {
+      sessionStorage.removeItem(PASS_KEY);
+      location.reload();
+    });
+
+    function enter() {
+      gate.hidden = true;
+      startDash();
+      load();
+    }
+
+    function startDash() {
+      dash.hidden = false;
+      logoutBtn.style.display = 'inline';
+      if (window.lucide) lucide.createIcons();
+      render();
+      if (!timer) timer = setInterval(load, REFRESH_MS);
+    }
+
+    /* ------------------------------------------------------------
+       Data
+    ------------------------------------------------------------ */
+    function setStatus(state, text) {
+      statusLine.dataset.state = state;
+      statusText.textContent = text;
+    }
+
+    function applyList(res) {
+      bookings = (res.bookings || []).map(function (b) {
+        b.type = b.type || 'test-drive';
+        return b;
+      });
+      dashError.hidden = true;
+      setStatus('ok', 'เชื่อมต่อกับ Google Sheet แล้ว · อัปเดตล่าสุด ' +
+        new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.' +
+        ' · ทั้งหมด ' + (res.total != null ? res.total : bookings.length) + ' รายการ');
+      render();
+    }
+
+    function load() {
+      if (!pass) return;
+      if (statusLine.dataset.state !== 'ok') setStatus('loading', 'กำลังโหลด…');
+
+      B.list(pass).then(function (res) {
+        if (!res.ok) {
+          /* A passphrase that used to work and now doesn't means it was
+             changed on the server — send staff back to the gate. */
+          if (res.error === 'unauthorized') {
+            sessionStorage.removeItem(PASS_KEY);
+            pass = '';
+            dash.hidden = true;
+            gate.hidden = false;
+            showGateError(errText('unauthorized'));
+            return;
+          }
+          setStatus('error', 'โหลดข้อมูลไม่สำเร็จ');
+          dashErrorMsg.textContent = errText(res.error);
+          dashError.hidden = false;
+          if (window.lucide) lucide.createIcons();
+          return;
+        }
+        applyList(res);
+      });
+    }
+
+    /* ------------------------------------------------------------
+       Rendering
+    ------------------------------------------------------------ */
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
     function fmtPhone(p) {
-      const d = (p || '').replace(/\D/g, '');
+      const d = String(p || '').replace(/\D/g, '');
       if (d.length === 10) return d.slice(0,3) + '-' + d.slice(3,6) + '-' + d.slice(6);
       if (d.length === 9)  return d.slice(0,2) + '-' + d.slice(2,5) + '-' + d.slice(5);
       return p;
     }
     function fmtTime(iso) {
       const d = new Date(iso);
+      if (isNaN(d)) return esc(iso);
       const time = d.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
       if (range === 'all') {
-        const date = d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
-        return date + ' · ' + time + ' น.';
+        return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' }) + ' · ' + time + ' น.';
       }
       return time + ' น.';
     }
-    function fmtServiceDate(iso) {
-      if (!iso) return '';
-      const d = new Date(iso + 'T00:00:00');
-      if (isNaN(d)) return iso;
+    function fmtServiceDate(s) {
+      if (!s) return '';
+      const d = new Date(String(s) + 'T00:00:00');
+      if (isNaN(d)) return esc(s);
       return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
     }
-    function esc(s) {
-      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
-      });
+    function isToday(iso) {
+      const d = new Date(iso);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() &&
+             d.getMonth() === now.getMonth() &&
+             d.getDate() === now.getDate();
     }
-    function nameFor(b) {
-      if (b.type === 'service') return b.fullName || '—';
-      return (esc((b.firstName || '') + ' ' + (b.lastName || '')).trim()) || '—';
-    }
+
     function detailsFor(b) {
+      const parts = [];
       if (b.type === 'service') {
-        const parts = [];
         if (b.model) parts.push(esc(b.model) + (b.plate ? ' (' + esc(b.plate) + ')' : ''));
         if (b.serviceType) parts.push(esc(b.serviceType));
         if (b.date) parts.push(fmtServiceDate(b.date) + (b.timeSlot ? ' · ' + esc(b.timeSlot) : ''));
-        return parts.join(' · ') || '—';
+      } else {
+        if (b.model) parts.push('รุ่น ' + esc(b.model));
+        if (b.branch) parts.push(esc(b.branch));
+        if (b.email) parts.push(esc(b.email));
       }
-      // test-drive (default, also covers any legacy entries with no type)
-      const parts = [];
-      if (b.model) parts.push('รุ่น ' + esc(b.model));
-      if (b.branch) parts.push(esc(b.branch));
-      if (b.email) parts.push(esc(b.email));
       return parts.join(' · ') || '—';
     }
 
-    function renderRows() {
-      const base = range === 'today' ? window.SuphanBookings.today() : window.SuphanBookings.all();
-      const list = base
-        .filter(function (b) { return typeFilter === 'all' || (b.type || 'test-drive') === typeFilter; })
+    function render() {
+      const list = bookings
+        .filter(function (b) { return range === 'all' || isToday(b.ts); })
+        .filter(function (b) { return typeFilter === 'all' || b.type === typeFilter; })
         .slice()
         .sort(function (a, b) { return new Date(b.ts) - new Date(a.ts); });
 
@@ -380,20 +591,20 @@
 
       if (!list.length) {
         rowsEl.innerHTML = '';
-        emptyEl.style.display = '';
+        emptyEl.hidden = false;
         if (window.lucide) lucide.createIcons();
         return;
       }
-      emptyEl.style.display = 'none';
+      emptyEl.hidden = true;
 
       rowsEl.innerHTML = list.map(function (b) {
-        const type = b.type || 'test-drive';
+        const digits = String(b.phone || '').replace(/\D/g, '');
         return (
           '<tr>' +
             '<td class="muted-cell">' + fmtTime(b.ts) + '</td>' +
-            '<td>' + nameFor(b) + '</td>' +
-            '<td><a class="phone" href="tel:+66' + esc((b.phone||'').replace(/^0/,'')) + '">' + esc(fmtPhone(b.phone)) + '</a></td>' +
-            '<td><span class="type-badge" data-type="' + type + '">' + (TYPE_LABELS[type] || type) + '</span></td>' +
+            '<td>' + (esc(b.name) || '—') + '</td>' +
+            '<td><a class="phone" href="tel:+66' + esc(digits.replace(/^0/, '')) + '">' + esc(fmtPhone(b.phone)) + '</a></td>' +
+            '<td><span class="type-badge" data-type="' + esc(b.type) + '">' + (TYPE_LABELS[b.type] || esc(b.type)) + '</span></td>' +
             '<td class="muted-cell">' + detailsFor(b) + '</td>' +
             '<td><button type="button" class="status-btn" data-id="' + esc(b.id) + '" data-called="' + !!b.called + '">' +
               (b.called ? 'โทรกลับแล้ว' : 'ยังไม่โทรกลับ') +
@@ -412,27 +623,41 @@
           btn.setAttribute('aria-pressed', 'true');
           if (btn.dataset.group === 'range') range = btn.dataset.value;
           else typeFilter = btn.dataset.value;
-          renderRows();
+          render();
         });
       });
     });
 
+    /* Status toggle. Writes to the Sheet; the button reverts if the
+       write fails, so what staff see always matches the Sheet. */
     rowsEl.addEventListener('click', function (e) {
       const btn = e.target.closest('.status-btn');
       if (!btn) return;
+
+      const id = btn.dataset.id;
       const next = btn.dataset.called !== 'true';
-      window.SuphanBookings.setCalled(btn.dataset.id, next);
-      renderRows();
+      const label = btn.textContent;
+
+      btn.disabled = true;
+      btn.textContent = 'กำลังบันทึก…';
+
+      B.setCalled(pass, id, next).then(function (res) {
+        btn.disabled = false;
+        if (!res.ok) {
+          btn.textContent = label;
+          dashErrorMsg.textContent = 'บันทึกสถานะไม่สำเร็จ — ' + errText(res.error);
+          dashError.hidden = false;
+          if (window.lucide) lucide.createIcons();
+          return;
+        }
+        const item = bookings.find(function (x) { return x.id === id; });
+        if (item) item.called = next;
+        dashError.hidden = true;
+        render();
+      });
     });
 
-    document.getElementById('refresh-btn').addEventListener('click', renderRows);
-
-    document.getElementById('clear-btn').addEventListener('click', function () {
-      if (confirm('ลบรายการคำขอจองทั้งหมดที่บันทึกไว้ในเบราว์เซอร์นี้? การกระทำนี้ย้อนกลับไม่ได้')) {
-        localStorage.removeItem(window.SuphanBookings.KEY);
-        renderRows();
-      }
-    });
+    document.getElementById('refresh-btn').addEventListener('click', load);
   })();
   </script>
 </body>

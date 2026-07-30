@@ -197,8 +197,9 @@
   </footer>
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script src="site.js"></script>
-  <script src="bookings.js"></script>
+  <script src="site.js?v=8"></script>
+  <script src="config.js?v=8"></script>
+  <script src="bookings.js?v=8"></script>
   <script>
   (function () {
     const form = document.getElementById('sv-form');
@@ -218,6 +219,29 @@
       errorBox.dataset.show = 'false';
     }
 
+    /* Retry anything that never reached the server on a previous visit. */
+    window.SuphanBookings.flush();
+
+    const SUBMIT_LABEL = submitBtn.textContent;
+
+    /* Failure copy. The customer must never see a success screen for a
+       booking the shop has no record of — offer the phone instead. */
+    function sendFailure(error) {
+      const cfg = window.SUPHAN_CONFIG || {};
+      const phones = [cfg.SHOP_PHONE_HQ, cfg.SHOP_PHONE_BANGPLAMA]
+        .filter(Boolean).join(' หรือ ');
+
+      if (error === 'rate_limited') {
+        showError('ระบบได้รับคำขอจองจำนวนมากในขณะนี้ กรุณาลองอีกครั้งในอีก 1 นาที' +
+                  (phones ? ' หรือโทร ' + phones : ''));
+        return;
+      }
+      showError('ขออภัย ระบบไม่สามารถส่งข้อมูลการจองได้ในขณะนี้ ' +
+                'ข้อมูลของท่านยังไม่ถูกส่งถึงร้าน' +
+                (phones ? ' กรุณาโทรนัดคิวที่ ' + phones : '') +
+                ' หรือกดปุ่มจองอีกครั้ง');
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       clearError();
@@ -231,32 +255,39 @@
       }
 
       submitBtn.disabled = true;
+      submitBtn.textContent = 'กำลังส่งข้อมูล…';
 
       const entry = {
-        id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
         type: 'service',
-        ts: new Date().toISOString(),
-        fullName: form.fullName.value.trim(),
+        name: form.fullName.value.trim(),
         phone: phoneDigits,
         model: form.model.value.trim(),
         plate: form.plate.value.trim(),
         serviceType: form.serviceType.value,
         date: form.date.value,
-        timeSlot: form.timeSlot.value,
-        called: false
+        timeSlot: form.timeSlot.value
       };
 
-      window.SuphanBookings.add(entry);
+      window.SuphanBookings.submit(entry).then(function (res) {
+        submitBtn.textContent = SUBMIT_LABEL;
 
-      formBlock.style.display = 'none';
-      successBlock.dataset.show = 'true';
-      if (window.lucide) lucide.createIcons();
+        if (!res.ok) {
+          submitBtn.disabled = false;
+          sendFailure(res.error);
+          return;
+        }
+
+        formBlock.style.display = 'none';
+        successBlock.dataset.show = 'true';
+        if (window.lucide) lucide.createIcons();
+      });
     });
 
     document.getElementById('sv-again').addEventListener('click', function (e) {
       e.preventDefault();
       form.reset();
       submitBtn.disabled = false;
+      submitBtn.textContent = SUBMIT_LABEL;
       successBlock.dataset.show = 'false';
       formBlock.style.display = '';
     });

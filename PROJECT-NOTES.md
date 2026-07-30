@@ -38,13 +38,15 @@ There is **nothing to install and nothing to run** — no `npm install`, no
 | `parts.html` | อะไหล่ — **วิธีสั่งอะไหล่ 6 ขั้นตอน**, illustrated how-to for ordering via Honda PEC + LINE |
 | `experience.html` | ประสบการณ์ / company story + both branches |
 | `contact.html` | Facebook + TikTok, both branch cards with phone numbers |
-| `admin.html` | **Internal.** PIN-gated list of booking requests. `noindex`. |
+| `admin.html` | **Internal.** Passphrase-gated list of booking requests, read from the Sheet. `noindex`. |
 
 Shared: `site.css` (tokens, nav, footer, cards, forms), `site.js` (icons, mobile
-nav, scroll reveal), `bookings.js` (booking store), `promos.js` (banner carousel).
+nav, scroll reveal), `config.js` (booking endpoint + shop phones), `bookings.js`
+(booking client), `promos.js` (banner carousel).
 
-**Cache-busting:** `site.css` is linked as `site.css?v=N` in every page. Bump N
-in all HTML files whenever `site.css` changes, or browsers serve a stale copy.
+**Cache-busting:** `site.css` is linked as `site.css?v=N` in every page, and since
+2026-07-30 so are `site.js`, `bookings.js`, `config.js`, `promos.js`. Bump N in
+all HTML files whenever any of those files change, or browsers serve a stale copy.
 Currently **v8**.
 
 ---
@@ -233,20 +235,68 @@ built-in copy so the section still renders. **On a real host it reads the JSON.*
 
 ---
 
-## Booking system — IMPORTANT LIMITATION
+## Booking system — rebuilt on a real backend 2026-07-30
 
-`test-drive.html` and `service.html` both write to **browser localStorage** via
-`bookings.js`. `admin.html` reads from the same place.
+Both booking forms now post to a **Google Apps Script web app** that appends to a
+Google Sheet. `admin.html` reads the same Sheet, so a booking made on a
+customer's phone shows up on the shop PC. That is new — see *What changed* below.
 
-**This is not a real inbox.** A customer submitting on their phone and staff
-opening `admin.html` on the shop PC are separate storage. Admin will see nothing.
-There is a visible warning banner on `admin.html` saying exactly this.
+| Piece | Role |
+|---|---|
+| `scripts/apps-script/Code.gs` | The backend. Pasted into Apps Script, bound to a Sheet. Not served as part of the site. |
+| `scripts/apps-script/SETUP-TH.md` | Thai step-by-step for the owner: create Sheet → paste code → set passphrase → deploy → paste URL. |
+| `config.js` | **The only file to edit** to connect it. Holds `BOOKING_ENDPOINT`, fallback shop phones, optional `SHEET_URL`. |
+| `bookings.js` | Async client. Posts bookings, fetches the list, toggles call-back status. |
+| `admin.html` | Passphrase-gated dashboard reading from the Sheet. Auto-refreshes every 60s. |
 
-To make it real, the forms need a backend. Cheapest realistic option for this
-business: a Google Sheet behind a free Google Apps Script web endpoint. Not built.
+### ⚠️ Not live until the owner does the setup
+`config.js` ships with `BOOKING_ENDPOINT: ''`. Until a real `/exec` URL is pasted
+in, the forms tell the customer to phone the shop (they do **not** fake a
+success), and `admin.html` shows the setup checklist instead of a login box.
+Only the owner can complete it — it needs their Google account.
 
-`admin.html` PIN is `suphan2026`, **in plaintext in the file** — it deters casual
-clicks, it is not security. Replace before handling real customer data.
+### Things that will bite you here
+
+- **Never set `Content-Type: application/json` on the fetch in `bookings.js`.**
+  That turns it into a CORS preflighted request, and Apps Script does not answer
+  `OPTIONS` — every booking would fail. The plain string body keeps it a "simple
+  request" and the backend `JSON.parse`s it itself. There is a comment saying so
+  at the top of `bookings.js`; heed it.
+- **Editing `Code.gs` is not enough — you must deploy a new version.** Apps
+  Script keeps serving the old code otherwise. Deploy → Manage deployments →
+  pencil → Version: New version. The URL does not change.
+- The deployment's *Who has access* must be **Anyone**, not *Anyone with a
+  Google account*. Customers are not logged into Google.
+- Sheet columns are looked up by header **name**, so reordering columns is safe
+  but renaming a header breaks reads.
+- `phone` and `plate` columns are forced to text format. As numbers, Sheets eats
+  the leading zero off `08x` and mangles plates.
+- The flood guard accepts 10 bookings/minute globally (no per-IP data available
+  in Apps Script). Fine for this shop, would be wrong for a busy site.
+- Local `localStorage` is now only a **backup outbox**, not the store. A failed
+  submission is retried on the customer's next visit, but only if under 24h old —
+  a week-old service booking would arrive for a date already past, so it is
+  abandoned instead.
+
+### Admin auth — changed, read this
+The old plaintext PIN `suphan2026` is **gone**. It sat in `admin.html` where
+anyone viewing source could read it. The passphrase now lives only in the Apps
+Script Script Property `ADMIN_PASSPHRASE`, is verified server-side, and is held
+in `sessionStorage` for the tab. **Nothing secret is in this repo** — a static
+site cannot hold a secret, so the secret moved to the one place that can.
+
+Still a single shared passphrase with no per-user accounts or access log:
+adequate for a booking list, not for anything more sensitive. `SETUP-TH.md` has a
+PDPA section covering this.
+
+### JS cache-busting — new, and it matters on deploy
+`site.js`, `bookings.js`, `config.js`, `promos.js` are now linked as
+`...js?v=8`, matching the existing `site.css?v=N` scheme. Previously they had no
+version, which would have been an outage on this particular deploy: a returning
+visitor's cached old `bookings.js` (with `add()`) against the new HTML (calling
+`submit()`) means every booking silently fails. **Bump the version in all HTML
+when any of those files change** — same rule as `site.css`. Currently **v8** for
+both CSS and JS.
 
 ---
 
@@ -291,7 +341,9 @@ plus `robots.txt` and `sitemap.xml`.
 - [ ] `parts.html` still a placeholder — needs real parts content
 - [ ] Founding year on `experience.html` is a highlighted placeholder:
       `[พ.ศ. 2524 / ปีที่ก่อตั้งจริง]` — confirm the real year
-- [ ] Booking backend (see limitation above)
+- [ ] **Owner action: run `scripts/apps-script/SETUP-TH.md`** to switch the
+      booking backend on. Code is built and tested; it needs the owner's Google
+      account to deploy. Until then the forms tell customers to phone instead.
 - [ ] Domain + deploy + Search Console
 - [ ] Model categories on `models.html` were inferred, not supplied — verify
       (esp. UC3, labelled รถไฟฟ้า)
