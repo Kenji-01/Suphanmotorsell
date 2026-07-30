@@ -35,8 +35,7 @@ There is **nothing to install and nothing to run** — no `npm install`, no
 | `model-<slug>.html` | **14 files.** One detail page per model (gallery + colour selector + selling points) |
 | `test-drive.html` | จองทดลองขับ form (tabbed with service) |
 | `service.html` | จองเข้ารับบริการ form (tabbed with test-drive) |
-| `parts.html` | อะไหล่ — placeholder page, real content pending. Links to the guide below |
-| `parts-guide.html` | วิธีสั่งอะไหล่ 6 ขั้นตอน — illustrated how-to for ordering parts via Honda PEC + LINE |
+| `parts.html` | อะไหล่ — **วิธีสั่งอะไหล่ 6 ขั้นตอน**, illustrated how-to for ordering via Honda PEC + LINE |
 | `experience.html` | ประสบการณ์ / company story + both branches |
 | `contact.html` | Facebook + TikTok, both branch cards with phone numbers |
 | `admin.html` | **Internal.** PIN-gated list of booking requests. `noindex`. |
@@ -150,9 +149,15 @@ Nothing deleted. Full restore point is commit `a74b001`.
 
 ## Parts-ordering guide — added 2026-07-30
 
-`parts-guide.html` walks a customer through finding a part number on Honda's
-official catalogue and sending it to the shop. Six steps, each a real screenshot
-of the Honda PEC site with a Thai caption. Reached from `parts.html`.
+**`parts.html` *is* this guide.** It walks a customer through finding a part
+number on Honda's official catalogue and sending it to the shop. Six steps, each
+a real screenshot of the Honda PEC site with a Thai caption.
+
+It briefly existed as a separate `parts-guide.html` behind a stub `parts.html`;
+the owner asked for the stub gone, so the guide was `git mv`'d onto `parts.html`
+(same commit history). The nav item **อะไหล่** now lands straight on it. There is
+no `parts-guide.html` — don't recreate one, and don't reintroduce the
+"หน้านี้อยู่ระหว่างจัดทำ" stub copy.
 
 - **Screenshots:** `assets/parts-guide/step-{1..6}.webp`, 166 KB total, built by
   `scripts/build_parts_guide_images.py` from
@@ -171,10 +176,14 @@ misspellings, corrected here for a customer-facing page — เว็ปไซ�
 
 ### ⚠️ LINE ID is a placeholder
 The "เพิ่มเพื่อนทางไลน์" button points at `line.me/R/ti/p/~@suphanmotorsale`,
-which is **invented** — the real LINE Official Account ID has never been
-supplied. There is a visible Thai note under the button saying so. Replace the
-href *and* delete that note before launch. This is the only LINE link on the
-site; `contact.html` still has Facebook and TikTok only.
+which is **invented** — it does not resolve to the shop's account. The owner said
+on 2026-07-30 they would send the real link; it has not arrived yet.
+
+When it does: replace the href (there's a `TODO(owner)` comment on it in
+`parts.html`), **delete the `.guide__line-note` warning paragraph** below the
+button, and drop this section. This is the only LINE link on the site —
+`contact.html` still has Facebook and TikTok only, so consider adding it there
+too.
 
 ---
 
