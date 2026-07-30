@@ -35,7 +35,8 @@ There is **nothing to install and nothing to run** — no `npm install`, no
 | `model-<slug>.html` | **14 files.** One detail page per model (gallery + colour selector + selling points) |
 | `test-drive.html` | จองทดลองขับ form (tabbed with service) |
 | `service.html` | จองเข้ารับบริการ form (tabbed with test-drive) |
-| `parts.html` | อะไหล่ — placeholder page, real content pending |
+| `parts.html` | อะไหล่ — placeholder page, real content pending. Links to the guide below |
+| `parts-guide.html` | วิธีสั่งอะไหล่ 6 ขั้นตอน — illustrated how-to for ordering parts via Honda PEC + LINE |
 | `experience.html` | ประสบการณ์ / company story + both branches |
 | `contact.html` | Facebook + TikTok, both branch cards with phone numbers |
 | `admin.html` | **Internal.** PIN-gated list of booking requests. `noindex`. |
@@ -147,6 +148,36 @@ Nothing deleted. Full restore point is commit `a74b001`.
 
 ---
 
+## Parts-ordering guide — added 2026-07-30
+
+`parts-guide.html` walks a customer through finding a part number on Honda's
+official catalogue and sending it to the shop. Six steps, each a real screenshot
+of the Honda PEC site with a Thai caption. Reached from `parts.html`.
+
+- **Screenshots:** `assets/parts-guide/step-{1..6}.webp`, 166 KB total, built by
+  `scripts/build_parts_guide_images.py` from
+  `OneDrive/รูปภาพ/suphan motorsell/spair part instruction guide pic/`.
+  Step order = sort order of the source filenames (they are timestamped).
+  Sources are 825–1150px wide, i.e. **below** the 1400px cap, so nothing is
+  upscaled — re-shoot at a higher resolution if crisper images are wanted.
+- The green ring drawn on each screenshot is the customer's own annotation and
+  is what makes the steps readable. Keep it when replacing them.
+- Off-site link: `https://pec.thaihonda.co.th/Applications/Common/Programs/StartApp.aspx`
+  (Thai Honda's parts catalogue). Not ours — if it moves, this page breaks.
+
+**Thai copy note:** the owner's source text had three common informal
+misspellings, corrected here for a customer-facing page — เว็ปไซน์ → เว็บไซต์,
+ปั้มน้ำ → ปั๊มน้ำ, คลิ๊ก → คลิก, รุป → รูป. Meaning is unchanged.
+
+### ⚠️ LINE ID is a placeholder
+The "เพิ่มเพื่อนทางไลน์" button points at `line.me/R/ti/p/~@suphanmotorsale`,
+which is **invented** — the real LINE Official Account ID has never been
+supplied. There is a visible Thai note under the button saying so. Replace the
+href *and* delete that note before launch. This is the only LINE link on the
+site; `contact.html` still has Facebook and TikTok only.
+
+---
+
 ## Hero animation (scroll-scrubbed)
 
 Source: `OneDrive/รูปภาพ/suphan motorsell/new 3d animate/Suphanmotorsell final3d.mp4`
@@ -247,6 +278,7 @@ plus `robots.txt` and `sitemap.xml`.
 ## Known gaps / next steps
 
 - [ ] Replace the 5 promo placeholders with real Honda banner artwork
+- [ ] **Real LINE Official Account ID** for `parts-guide.html` (placeholder now)
 - [ ] `parts.html` still a placeholder — needs real parts content
 - [ ] Founding year on `experience.html` is a highlighted placeholder:
       `[พ.ศ. 2524 / ปีที่ก่อตั้งจริง]` — confirm the real year
