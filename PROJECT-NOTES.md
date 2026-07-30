@@ -2,7 +2,11 @@
 
 Static site, **no build step, no Node.js, no dev server**. Open `index.html`
 directly in a browser (`file://` works), or deploy the whole folder as-is.
-Last updated 2026-07-29.
+Last updated 2026-07-30.
+
+**Starting a new chat?** This repo lives at
+https://github.com/Kenji-01/Suphanmotorsell.git (branch `main`) — clone that
+if the local folder isn't present. See *Version control* below.
 
 ### How to preview it (read this first)
 
@@ -45,15 +49,40 @@ Currently **v8**.
 
 ---
 
-## Version control
+## Version control — GitHub is the source of truth
 
 `git` was initialised on 2026-07-29 (it did not exist before). `frames/` is
 gitignored — 472 generated stills, re-creatable from the source video.
+
+**Remote:** https://github.com/Kenji-01/Suphanmotorsell.git (branch `main`).
+The full project — code, `PROJECT-NOTES.md`, `bikes.json`, all `assets/*`
+(except gitignored `frames/`) — is pushed there. **Start a new chat by
+cloning this repo rather than assuming local files exist**, especially on a
+different machine:
+```bash
+git clone https://github.com/Kenji-01/Suphanmotorsell.git
+```
+
+**Auth gotcha hit once already:** Windows had a *different* GitHub account
+(`hachimagic`) cached in Credential Manager under the generic
+`git:https://github.com` key, which silently 403'd every push as the wrong
+user. Fixed by deleting that cached entry (`cmdkey /delete:...`) so Git
+Credential Manager re-prompted for `Kenji-01`. If pushes ever start failing
+with a 403 again, check `cmdkey /list` for which account `git:https://github.com`
+resolves to before assuming it's a permissions problem on GitHub's side.
+
+**Workflow going forward:** after each meaningful unit of work (not every
+single edit), commit locally *and* push to `origin/main` — treat GitHub as
+the durable backup, not just the local `.git` folder. If a session ends
+mid-task, still push whatever is in a working state rather than leaving it
+local-only.
 
 | Commit | Meaning |
 |---|---|
 | `a74b001` | Restore point: whole site **before** the models-page rebuild |
 | `1c7a77c` | The models-page rebuild |
+| `fc071e5` | Docs for the rebuild + generator scripts moved into `scripts/` |
+| *(GitHub)* | Repo connected to `Kenji-01/Suphanmotorsell`, pushed 2026-07-30 |
 
 To recover anything from the old models page: `git show a74b001:models.html`.
 
