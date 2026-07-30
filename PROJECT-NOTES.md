@@ -1,7 +1,24 @@
 # SUPHAN MOTORSALE — project handover notes
 
-Static site, no build step. Open `index.html` directly, or deploy the whole
-folder as-is. Last updated 2026-07-29.
+Static site, **no build step, no Node.js, no dev server**. Open `index.html`
+directly in a browser (`file://` works), or deploy the whole folder as-is.
+Last updated 2026-07-29.
+
+### How to preview it (read this first)
+
+There is **nothing to install and nothing to run** — no `npm install`, no
+`npm start`, no framework. It is plain HTML + CSS + vanilla JS.
+
+- **Simplest:** double-click `index.html`, or in this tool open a browser
+  preview tab pointed at `file:///C:/Users/kenji/suphan-hero/index.html`.
+- Python scripts under `scripts/` (or the scratchpad) are **one-off asset
+  generators** — they slice video frames and resize photos. They are *not*
+  needed to view the site and are not part of a build pipeline.
+- Known quirk of the in-tool preview pane: it renders `file://` pages as
+  static snapshots and **will not follow in-page link clicks**. To check
+  another page, point the preview directly at that page's URL. Verify links
+  by confirming the target file exists on disk, not by clicking.
+- `git` is now initialised here (see *Version control* below).
 
 ---
 
@@ -10,7 +27,8 @@ folder as-is. Last updated 2026-07-29.
 | File | Purpose |
 |---|---|
 | `index.html` | Home: scroll-scrubbed hero animation, brand promise, 2-bike teaser, promo carousel |
-| `models.html` | All 11 Honda models, 3/2/1-column grid |
+| `models.html` | รุ่น index — 14 Honda models, 3/2/1-column grid |
+| `model-<slug>.html` | **14 files.** One detail page per model (gallery + colour selector + selling points) |
 | `test-drive.html` | จองทดลองขับ form (tabbed with service) |
 | `service.html` | จองเข้ารับบริการ form (tabbed with test-drive) |
 | `parts.html` | อะไหล่ — placeholder page, real content pending |
@@ -23,7 +41,80 @@ nav, scroll reveal), `bookings.js` (booking store), `promos.js` (banner carousel
 
 **Cache-busting:** `site.css` is linked as `site.css?v=N` in every page. Bump N
 in all HTML files whenever `site.css` changes, or browsers serve a stale copy.
-Currently **v7**.
+Currently **v8**.
+
+---
+
+## Version control
+
+`git` was initialised on 2026-07-29 (it did not exist before). `frames/` is
+gitignored — 472 generated stills, re-creatable from the source video.
+
+| Commit | Meaning |
+|---|---|
+| `a74b001` | Restore point: whole site **before** the models-page rebuild |
+| `1c7a77c` | The models-page rebuild |
+
+To recover anything from the old models page: `git show a74b001:models.html`.
+
+---
+
+## รุ่น (models) section — rebuilt 2026-07-29
+
+**Source of truth:** `OneDrive/รูปภาพ/suphan motorsell/motorcycle pic/`.
+One top-level folder = one model. Folder name **is** the display name and is
+shown verbatim — do not rename, translate or "fix" it.
+
+14 models, 95 source images → **109 WebP** in `assets/bikes/<slug>/` (10.3 MB):
+`cover.webp` (900w, index grid) · `g*.webp` gallery · `c*.webp` colours ·
+`s*.webp` selling points (all 1500w).
+
+`bikes.json` is the generated manifest — model names, slugs, cover choice,
+and every image path with its source filename. **Changing a cover is a
+one-line edit there**, no rebuild needed.
+
+Subfolder convention in the source folder, verified by opening the images:
+- `All color` → colour variants (8 models) → drives the colour selector
+- `Selling point` → feature shots (ADV160, NEW FORZA350) → separate section
+
+### Things that will bite you here
+
+- **Output filenames are ASCII-slugged on purpose.** The source has Thai
+  filenames (`ไฟต่ำ`, `ไฟสูง`), trailing spaces, double spaces and
+  parentheses. Rather than trusting URL-encoding everywhere, the generator
+  renames outputs. Keep doing this. Verified: 0 non-ASCII/space image paths.
+- **22 source PNGs have real alpha** (Supercub + Wave110 `All color`, all of
+  UC3, ADV160 selling points). They must be flattened onto **white** or they
+  render with black/garbage backgrounds.
+- Filenames lie. `FORZA350 colorchart.jpg` is a clean single-bike side view,
+  not an infographic. UC3's `All color` files look like duplicates by name
+  but are black vs white. Always open the image before judging.
+- `CBR150R 2025` has exactly one photo and it **has a rider in it** — used as
+  the cover by explicit owner decision. Swap it if a clean shot arrives.
+- `ADV160` cover has an accessory top box fitted (only root image available).
+- Supercub colour labels are Honda's raw codes (`G-W`, `GRN`, `SBW`, `Y-W`)
+  because the filenames carry no plain colour word. Rename in `bikes.json`
+  if you learn the real names.
+- `ADV160` / `New ADV160 26YM` and `New Scoopy` / `Scoopy cinamom roll` are
+  same-family pairs kept as **separate cards** by owner decision.
+
+### Regenerating after new photos
+
+Re-run the two generator scripts (image builder, then page builder). The page
+builder reads the nav/footer out of the existing `models.html` so the shell
+stays in sync — if you ever change the nav, regenerate the detail pages too,
+or they keep the old nav.
+
+⚠️ **Gotcha that already bit once:** the page generator reuses only the
+header/footer, *not* the page-level `<style>` block. Grid + light-background
+rules therefore live in `site.css` (`body.page-light`, `.models*`). All 15
+generated pages carry `<body class="page-light">`. Without it they render on
+the black default background.
+
+### Archived
+
+`archive/old-runs-page/` — old `models.html` + the 11 old bike images.
+Nothing deleted. Full restore point is commit `a74b001`.
 
 ---
 
@@ -97,8 +188,10 @@ clicks, it is not security. Replace before handling real customer data.
   88% alpha (near-white), which is why it looked washed out; alpha was normalised
   and ink recoloured. Silhouette is unmodified.
 - `assets/brand/honda-wing-{dark,light}.webp` — same treatment.
-- `assets/models/*.webp` — 11 real bike photos, cover-fit avoided; cards use
-  `object-fit: contain` because sources range 1.0–1.8 aspect.
+- `assets/bikes/<slug>/*.webp` — the 14-model photo set (see the รุ่น section).
+  Cards use `object-fit: contain`, never cover: sources range 1.0–1.8 aspect and
+  a crop clips wheels/mirrors on the squarer shots.
+  *(`assets/models/` is gone — moved to `archive/old-runs-page/assets-models/`.)*
 - `assets/branches/{hq,bangplama}{,-sm}.webp` — the two storefronts.
 
 ---
