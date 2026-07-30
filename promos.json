@@ -1,0 +1,61 @@
+{
+  "_readme": [
+    "แบนเนอร์โปรโมชั่น — แก้ไขไฟล์นี้เพื่อเปลี่ยนแบนเนอร์บนเว็บไซต์ ไม่ต้องแก้โค้ด",
+    "1. วางไฟล์รูปใน assets/promos/ (แนะนำแนวตั้ง 1080x1350 หรือ 1:1 1080x1080)",
+    "2. เพิ่มรายการใน \"items\" ด้านล่าง ตามรูปแบบเดิม",
+    "3. ลบหรือตั้ง active:false เพื่อซ่อนแบนเนอร์ที่หมดโปรฯ แล้ว",
+    "",
+    "ฟิลด์:  image = ที่อยู่ไฟล์รูป | alt = คำอธิบายรูป (สำหรับ SEO/ผู้พิการทางสายตา)",
+    "        href = ลิงก์เมื่อคลิก (เว้นว่าง \"\" ถ้าไม่ต้องการให้คลิกได้)",
+    "        active = true/false | starts,ends = ช่วงวันที่แสดงผล YYYY-MM-DD (เว้นว่างได้)"
+  ],
+
+  "settings": {
+    "autoplaySeconds": 6,
+    "heading": "โปรโมชั่นและข่าวสาร",
+    "subheading": "อัปเดตโปรโมชั่นล่าสุดจากฮอนด้าและสุพรรณมอเตอร์เซล"
+  },
+
+  "items": [
+    {
+      "image": "assets/promos/promo-1.webp",
+      "alt": "My Honda Moto แอปเดียว จบทุกเรื่องรถ",
+      "href": "",
+      "active": true,
+      "starts": "",
+      "ends": ""
+    },
+    {
+      "image": "assets/promos/promo-2.webp",
+      "alt": "THE ONE-SIXTI-ER ตัวจริง 160 ที่ได้ใจ ตอบโจทย์ตัวจริง",
+      "href": "",
+      "active": true,
+      "starts": "",
+      "ends": ""
+    },
+    {
+      "image": "assets/promos/promo-3.webp",
+      "alt": "PCX160 สปอยล์สายพรีเมียม ซัพพอร์ตทั้งรถ ทั้งไลฟ์สไตล์",
+      "href": "",
+      "active": true,
+      "starts": "",
+      "ends": ""
+    },
+    {
+      "image": "assets/promos/promo-4.webp",
+      "alt": "CLICK160 โดนใจสายสปอร์ต สะสมพอยต์ แลกสิทธิพิเศษ",
+      "href": "",
+      "active": true,
+      "starts": "",
+      "ends": ""
+    },
+    {
+      "image": "assets/promos/promo-5.webp",
+      "alt": "ADV160 ฮีลใจสายลุย ดูแลทุกเรื่องรถ",
+      "href": "",
+      "active": true,
+      "starts": "",
+      "ends": ""
+    }
+  ]
+}

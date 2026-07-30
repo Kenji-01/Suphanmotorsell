@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>จองทดลองขับรถจักรยานยนต์ฮอนด้า — SUPHAN MOTORSALE</title>
+<meta name="description" content="จองทดลองขับรถจักรยานยนต์ฮอนด้าฟรีทุกรุ่น ที่สุพรรณมอเตอร์เซล สาขาสำนักงานใหญ่และสาขาบางปลาม้า จังหวัดสุพรรณบุรี" />
+<link rel="canonical" href="https://www.suphanmotorsale.com/test-drive.html" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="SUPHAN MOTORSALE" />
+<meta property="og:locale" content="th_TH" />
+<meta property="og:title" content="จองทดลองขับรถจักรยานยนต์ฮอนด้า — SUPHAN MOTORSALE" />
+<meta property="og:description" content="จองทดลองขับรถจักรยานยนต์ฮอนด้าฟรีทุกรุ่น ที่สุพรรณมอเตอร์เซล" />
+<meta property="og:url" content="https://www.suphanmotorsale.com/test-drive.html" />
+<meta property="og:image" content="https://www.suphanmotorsale.com/assets/brand/suphan-mark-dark.webp" />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="จองทดลองขับรถจักรยานยนต์ฮอนด้า — SUPHAN MOTORSALE" />
+<meta name="twitter:description" content="จองทดลองขับรถจักรยานยนต์ฮอนด้าฟรีทุกรุ่น ที่สุพรรณมอเตอร์เซล" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Tiro+Devanagari+Marathi:ital@0;1&family=Noto+Sans+Thai:wght@400;500;600&family=Kanit:ital,wght@0,300;0,400;0,500;0,600;1,800;1,900&family=Archivo+Black&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="site.css?v=7" />
+
+<style>
+  :root {
+    --page-bg: #FAFBFC;
+    --page-fg: var(--navy);
+  }
+
+  .site-head { padding: var(--nav-top) 0 0; }
+
+  /* Phone field with a fixed +66 prefix, joined into one bordered pill */
+  .td__phone { display: flex; }
+  .td__phone-prefix {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border: 1.5px solid #E2E6EA;
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
+    background: #F7F8FA;
+    color: var(--slate);
+    font-size: 1rem;
+  }
+  .td__phone input { border-radius: 0 10px 10px 0; }
+</style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <header class="site-head">
+    <div class="shell" style="--shell: min(92vw, 980px);">
+      <nav class="nav" aria-label="เมนูหลัก">
+        <div class="nav__group nav__group--left">
+          <button class="nav__burger" id="burger" type="button" aria-label="เปิดเมนู" aria-expanded="false" aria-controls="mobile-panel">
+            <i data-lucide="menu"></i>
+          </button>
+          <a class="nav__link" href="models.html">รุ่น</a>
+          <a class="nav__link" href="parts.html">อะไหล่</a>
+          <a class="nav__link" href="service.html">บริการหลังขาย</a>
+        </div>
+
+        <a class="logo" href="index.html" aria-label="SUPHAN MOTORSALE">
+          <img class="logo__mark" src="assets/brand/suphan-mark-dark.webp" width="798" height="484" alt="SUPHAN MOTORSALE" />
+        </a>
+
+        <div class="nav__group nav__group--right">
+          <a class="nav__link" href="experience.html">ประสบการณ์</a>
+          <a class="nav__link" href="test-drive.html" aria-current="page">ทดลองขับ</a>
+          <a class="nav__link nav__link--icon" href="contact.html">
+            <i data-lucide="phone"></i><span>ติดต่อ</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="panel" id="mobile-panel" data-open="false">
+        <div>
+          <div class="panel__inner">
+            <a class="nav__link" href="models.html">รุ่น</a>
+            <a class="nav__link" href="parts.html">อะไหล่</a>
+            <a class="nav__link" href="service.html">บริการหลังขาย</a>
+            <a class="nav__link" href="experience.html">ประสบการณ์</a>
+            <a class="nav__link" href="test-drive.html" aria-current="page">ทดลองขับ</a>
+            <a class="nav__link" href="contact.html">ติดต่อ</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="booking-page">
+    <div class="booking-page__wrap">
+
+      <nav class="booking-tabs" aria-label="เลือกประเภทการจอง">
+        <a href="test-drive.html" aria-current="page">จองทดลองขับ</a>
+        <a href="service.html">จองเข้ารับบริการ</a>
+      </nav>
+
+      <h1 class="sr-only">จองทดลองขับรถจักรยานยนต์ฮอนด้า</h1>
+
+      <div id="td-form-block">
+
+        <div id="td-error" class="bk-error" role="alert"></div>
+
+        <form id="td-form" novalidate>
+          <div class="bk-row">
+            <div class="bk-field">
+              <label for="td-model">รุ่นที่สนใจ <span class="req">*</span></label>
+              <select id="td-model" name="model" required>
+                <option value="" disabled selected hidden></option>
+                <option>Wave 110</option>
+                <option>Wave 125</option>
+                <option>Dream 125</option>
+                <option>Scoopy</option>
+                <option>Click 125/150</option>
+                <option>Lead 125</option>
+                <option>Giorno+ 125</option>
+                <option>PCX</option>
+                <option>Forza 350</option>
+                <option>CB 150</option>
+                <option>UC3</option>
+                <option>อื่นๆ / ยังไม่แน่ใจ</option>
+              </select>
+            </div>
+            <div class="bk-field">
+              <label for="td-branch">สาขาที่สะดวก <span class="req">*</span></label>
+              <select id="td-branch" name="branch" required>
+                <option value="" disabled selected hidden></option>
+                <option>สาขาสำนักงานใหญ่</option>
+                <option>สาขาบางปลาม้า</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bk-row">
+            <div class="bk-field">
+              <label for="td-fname">ชื่อ <span class="req">*</span></label>
+              <input type="text" id="td-fname" name="firstName" autocomplete="given-name" required />
+            </div>
+            <div class="bk-field">
+              <label for="td-lname">นามสกุล <span class="req">*</span></label>
+              <input type="text" id="td-lname" name="lastName" autocomplete="family-name" required />
+            </div>
+          </div>
+
+          <div class="bk-row">
+            <div class="bk-field">
+              <label for="td-phone">เบอร์โทรศัพท์มือถือ <span class="req">*</span></label>
+              <div class="td__phone">
+                <span class="td__phone-prefix">+66</span>
+                <input type="tel" id="td-phone" name="phone" inputmode="tel"
+                       placeholder="8X-XXX-XXXX" autocomplete="tel-national" required />
+              </div>
+            </div>
+            <div class="bk-field">
+              <label for="td-email">อีเมล <span class="req">*</span></label>
+              <input type="email" id="td-email" name="email" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="bk-consent">
+            <input type="checkbox" id="td-consent" name="consent" required />
+            <label for="td-consent">ยินยอมให้สุพรรณมอเตอร์เซลติดต่อกลับเพื่อนัดหมายทดลองขับ <span class="req">*</span></label>
+          </div>
+          <div class="bk-consent">
+            <input type="checkbox" id="td-marketing" name="marketing" />
+            <label for="td-marketing">รับข่าวสารและโปรโมชั่นจากสุพรรณมอเตอร์เซล (ไม่บังคับ)</label>
+          </div>
+
+          <button type="submit" class="bk-submit" id="td-submit">จองทดลองขับ</button>
+        </form>
+      </div>
+
+      <div id="td-success" class="bk-success">
+        <span class="bk-success-icon"><i data-lucide="check"></i></span>
+        <h2>รับข้อมูลการจองเรียบร้อยแล้ว</h2>
+        <p>
+          ทีมงานสุพรรณมอเตอร์เซลจะติดต่อกลับตามเบอร์โทรศัพท์ที่ระบุไว้
+          เพื่อยืนยันวันและเวลาทดลองขับโดยเร็วที่สุด
+        </p>
+        <a class="btn" href="#" id="td-again">จองทดลองขับอีกครั้ง</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div class="site-footer__brands">
+        <img src="assets/brand/suphan-mark-light.webp" width="798" height="484" alt="SUPHAN MOTORSALE" />
+        <span class="site-footer__divider" aria-hidden="true"></span>
+        <img src="assets/brand/honda-wing-light.webp" width="464" height="378" alt="Honda" />
+      </div>
+
+      <nav class="site-footer__links" aria-label="ลิงก์ท้ายเว็บไซต์">
+        <a href="models.html">รุ่นรถจักรยานยนต์</a>
+        <a href="parts.html">อะไหล่</a>
+        <a href="service.html">บริการหลังการขาย</a>
+        <a href="experience.html">เกี่ยวกับเรา</a>
+        <a href="contact.html">ติดต่อเรา</a>
+      </nav>
+
+      <div class="site-footer__social">
+        <a href="https://www.facebook.com/suphanmotorsale" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@suphanmotersale" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        </a>
+      </div>
+
+      <div class="site-footer__legal">
+        <p><strong>บริษัท สุพรรณมอเตอร์เซล จำกัด</strong> — ตัวแทนจำหน่ายรถจักรยานยนต์ฮอนด้าอย่างเป็นทางการ</p>
+        <p>HONDA และเครื่องหมายการค้าที่เกี่ยวข้องเป็นทรัพย์สินของบริษัท ไทยฮอนด้า จำกัด สุพรรณมอเตอร์เซลเป็นตัวแทนจำหน่ายที่ได้รับการแต่งตั้งอย่างเป็นทางการ มิใช่บริษัทในเครือหรือเจ้าของเครื่องหมายการค้าดังกล่าวแต่อย่างใด</p>
+        <p>© 2026 สุพรรณมอเตอร์เซล สงวนลิขสิทธิ์</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="site.js"></script>
+  <script src="bookings.js"></script>
+  <script>
+  (function () {
+    const form = document.getElementById('td-form');
+    const errorBox = document.getElementById('td-error');
+    const formBlock = document.getElementById('td-form-block');
+    const successBlock = document.getElementById('td-success');
+    const submitBtn = document.getElementById('td-submit');
+
+    const PHONE_RE = /^0?[689]\d{8}$/;
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.dataset.show = 'true';
+      errorBox.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+    function clearError() {
+      errorBox.dataset.show = 'false';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearError();
+
+      if (!form.reportValidity()) return;
+
+      const phoneDigits = form.phone.value.replace(/[\s-]/g, '');
+      if (!PHONE_RE.test(phoneDigits)) {
+        showError('กรุณากรอกเบอร์โทรศัพท์มือถือให้ถูกต้อง (เช่น 081-234-5678)');
+        return;
+      }
+
+      submitBtn.disabled = true;
+
+      const entry = {
+        id: (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
+        type: 'test-drive',
+        ts: new Date().toISOString(),
+        model: form.model.value,
+        branch: form.branch.value,
+        firstName: form.firstName.value.trim(),
+        lastName: form.lastName.value.trim(),
+        phone: phoneDigits,
+        email: form.email.value.trim(),
+        marketing: form.marketing.checked,
+        called: false
+      };
+
+      window.SuphanBookings.add(entry);
+
+      formBlock.style.display = 'none';
+      successBlock.dataset.show = 'true';
+      if (window.lucide) lucide.createIcons();
+    });
+
+    document.getElementById('td-again').addEventListener('click', function (e) {
+      e.preventDefault();
+      form.reset();
+      submitBtn.disabled = false;
+      successBlock.dataset.show = 'false';
+      formBlock.style.display = '';
+    });
+  })();
+  </script>
+</body>
+</html>

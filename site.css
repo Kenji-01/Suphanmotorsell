@@ -1,0 +1,669 @@
+/* ===================================================================
+   SUPHAN MOTORSALE — shared shell
+   Tokens, nav, logo, mobile panel, buttons, model cards, reveal.
+   Page-specific CSS (hero, promise, grid) stays inline in each page.
+   =================================================================== */
+
+:root {
+  --black:        #000000;
+  --nav-surface:  #E7E7E7;
+  --ink:          #0B0B0B;
+  --ink-soft:     #1A1A1A;
+  --white:        #FFFFFF;
+  --brand-red:    #E01B1B;
+
+  /* Per-page surface. index.html keeps the default black; models.html
+     overrides these to the light palette. */
+  --page-bg: var(--black);
+  --page-fg: var(--white);
+
+  /* The hero composition sits in a centred column that is roughly
+     58-61% of the viewport width. */
+  --shell: min(88vw, 820px);
+
+  --nav-h: 72px;
+  --nav-top: 16px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Tiro Devanagari Marathi ships Devanagari + Latin only, so Thai
+     glyphs fall through to the Thai face listed after it. */
+  --font-nav: "Tiro Devanagari Marathi", "Noto Sans Thai", serif;
+  --font-display: "Chonburi", "Noto Sans Thai", serif;
+  /* Headline: FC Twist Speed when licensed, Kanit Black Italic otherwise */
+  --font-headline: "FC Twist Speed", "Kanit", "Noto Sans Thai", sans-serif;
+  --font-kanit: "Kanit", "Noto Sans Thai", sans-serif;
+  --font-logo: "Archivo Black", "Arial Black", sans-serif;
+
+  --navy:  #1a2b3c;
+  --slate: #5a6b7a;
+  --muted: #9AA5B1;
+  --paper: #ffffff;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--page-fg);
+  font-family: var(--font-nav);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.shell {
+  width: var(--shell);
+  margin-inline: auto;
+}
+
+/* Thai has no inter-word spaces, so browsers guess line breaks and can
+   split words mid-syllable. Phrases wrapped in .nb only break between
+   each other. */
+.nb { white-space: nowrap; }
+
+/* -------------------------------------------------------------------
+   Nav bar
+------------------------------------------------------------------- */
+.nav {
+  position: relative;
+  z-index: 10;
+  height: var(--nav-h);
+  background: var(--nav-surface);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 30px;
+  gap: 16px;
+  box-shadow: 0 18px 48px -28px rgba(0,0,0,.9);
+  animation: drop .85s var(--ease) both;
+}
+
+.nav__group {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 36px);
+  flex: 1 1 0;
+  min-width: 0;
+}
+.nav__group--right { justify-content: flex-end; }
+
+.nav__link {
+  font-family: var(--font-nav);
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+  position: relative;
+  padding-block: 6px;
+  transition: color .25s var(--ease);
+}
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--brand-red);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .38s var(--ease);
+}
+.nav__link:hover { color: var(--brand-red); }
+.nav__link:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav__link:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 4px; border-radius: 2px; }
+.nav__link[aria-current="page"] { color: var(--brand-red); }
+.nav__link[aria-current="page"]::after { transform: scaleX(1); }
+
+.nav__link--icon { display: inline-flex; align-items: center; gap: 7px; }
+.nav__link--icon svg { width: 16px; height: 16px; stroke-width: 2.1; flex: 0 0 auto; }
+
+.nav__burger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: -8px;
+  flex: 0 0 auto;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background .25s var(--ease), transform .25s var(--ease);
+}
+.nav__burger:hover { background: rgba(0,0,0,.07); transform: translateY(-1px); }
+.nav__burger:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 2px; }
+.nav__burger svg { width: 27px; height: 27px; stroke-width: 2.1; }
+
+/* -------------------------------------------------------------------
+   SUPHAN MOTORSALE wordmark
+------------------------------------------------------------------- */
+.logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform .3s var(--ease);
+}
+.logo:hover { transform: translateY(-1px) scale(1.02); }
+.logo:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 5px; border-radius: 3px; }
+
+.logo__mark { display: block; height: 34px; width: auto; }
+
+/* -------------------------------------------------------------------
+   Mobile nav panel
+------------------------------------------------------------------- */
+.panel {
+  position: relative;
+  z-index: 9;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .45s var(--ease), margin-top .45s var(--ease);
+  margin-top: 0;
+}
+.panel > div { overflow: hidden; }
+.panel[data-open="true"] { grid-template-rows: 1fr; margin-top: 8px; }
+
+.panel__inner {
+  background: var(--nav-surface);
+  border-radius: 3px;
+  padding: 6px 30px;
+  display: flex;
+  flex-direction: column;
+}
+.panel__inner .nav__link {
+  padding-block: 15px;
+  font-size: 18px;
+  border-bottom: 1px solid rgba(0,0,0,.09);
+}
+.panel__inner .nav__link:last-child { border-bottom: 0; }
+
+/* -------------------------------------------------------------------
+   Button
+------------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  padding: 15px clamp(28px, 3vw, 42px);
+  border-radius: 7px;
+  background: var(--navy);
+  color: #fff;
+  font-family: var(--font-kanit);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  transition: background .28s var(--ease), transform .28s var(--ease);
+}
+.btn:hover { background: #24405a; transform: translateY(-2px); }
+.btn:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 3px; }
+
+/* -------------------------------------------------------------------
+   Model card — shared by the homepage teaser and the models grid
+------------------------------------------------------------------- */
+.model-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  font-family: var(--font-kanit);
+  text-align: center;
+}
+
+.model-card__media {
+  display: block;          /* it is a <span>; without this it stays inline */
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #F4F5F7;
+}
+.model-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Product photos on white, not backgrounds — contain them rather than
+     cropping, since their native aspect ratios vary widely (1.0 to 1.8)
+     and a cover-crop would clip wheels/mirrors on the squarer shots. */
+  object-fit: contain;
+  padding: 8%;
+  box-sizing: border-box;
+  transition: transform .55s var(--ease);
+}
+.model-card:hover .model-card__media img { transform: scale(1.04); }
+
+.model-card__cat {
+  display: block;
+  margin-top: clamp(14px, 1.5vw, 20px);
+  font-size: .8125rem;      /* 13px */
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.model-card__name {
+  display: block;
+  margin-top: 4px;
+  font-size: clamp(1.0625rem, 1.35vw, 1.1875rem);   /* 17 -> 19px */
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--navy);
+  transition: color .25s var(--ease);
+}
+.model-card:hover .model-card__name { color: var(--brand-red); }
+.model-card:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 6px; border-radius: 12px; }
+
+/* -------------------------------------------------------------------
+   Accessible-but-invisible text
+------------------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* -------------------------------------------------------------------
+   Booking forms — shared by test-drive.html and service.html, tabbed
+   between each other so they read as one flow.
+------------------------------------------------------------------- */
+.booking-page {
+  font-family: var(--font-kanit);
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 4vw, 40px) clamp(96px, 12vw, 160px);
+}
+.booking-page__wrap { max-width: 640px; margin-inline: auto; }
+
+.booking-tabs {
+  display: flex;
+  gap: clamp(24px, 3.6vw, 40px);
+  border-bottom: 1px solid #E7EBEF;
+  margin-bottom: clamp(32px, 4.4vw, 46px);
+}
+.booking-tabs a {
+  position: relative;
+  padding-bottom: 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .2s var(--ease);
+}
+.booking-tabs a:hover { color: var(--navy); }
+.booking-tabs a[aria-current="page"] { color: var(--brand-red); font-weight: 600; }
+.booking-tabs a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  background: var(--brand-red);
+}
+.booking-tabs a:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 3px; border-radius: 2px; }
+
+.bk-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+  margin-bottom: 26px;
+}
+.bk-field { margin-bottom: 26px; }
+.bk-row .bk-field { margin-bottom: 0; }
+
+.bk-field label, .bk-row .bk-field > label {
+  display: block;
+  font-size: .9375rem;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.bk-field label .req { color: var(--brand-red); }
+
+.bk-field select,
+.bk-field input[type="text"],
+.bk-field input[type="tel"],
+.bk-field input[type="email"],
+.bk-field input[type="date"] {
+  width: 100%;
+  display: block;
+  border: 1.5px solid #E2E6EA;
+  border-radius: 10px;
+  background: #fff;
+  padding: 13px 16px;
+  font-family: var(--font-kanit);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--navy);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .2s var(--ease);
+}
+.bk-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a6b7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 40px;
+  cursor: pointer;
+}
+.bk-field select:invalid { color: var(--muted); }
+.bk-field input::placeholder { color: var(--muted); opacity: 1; }
+.bk-field select:focus,
+.bk-field input:focus { outline: none; border-color: var(--navy); }
+.bk-field input[type="date"] { color-scheme: light; cursor: pointer; }
+
+.bk-consent { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 22px; }
+.bk-consent input[type="checkbox"] {
+  flex: 0 0 auto; width: 19px; height: 19px; margin-top: 2px;
+  accent-color: var(--navy); cursor: pointer;
+}
+.bk-consent label { font-size: .875rem; line-height: 1.6; color: var(--slate); cursor: pointer; }
+.bk-consent label .req { color: var(--brand-red); }
+
+.bk-submit {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: var(--brand-red);
+  color: #fff;
+  font-family: var(--font-kanit);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  padding: 16px;
+  cursor: pointer;
+  transition: background .2s var(--ease), transform .2s var(--ease);
+}
+.bk-submit:hover { background: #C4171B; transform: translateY(-1px); }
+.bk-submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.bk-submit:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+
+.bk-error {
+  display: none;
+  background: #FCEEEE; color: #A32626; border: 1px solid #F3C9C9;
+  border-radius: 8px; padding: 12px 16px; font-size: .875rem; margin-bottom: 26px;
+}
+.bk-error[data-show="true"] { display: block; }
+
+.bk-success { display: none; text-align: center; padding: clamp(20px, 3vw, 32px) 0 0; }
+.bk-success[data-show="true"] { display: block; }
+.bk-success-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 68px; height: 68px; border-radius: 50%;
+  background: #E9F6EE; color: #1E8A4C; margin-bottom: 20px;
+}
+.bk-success-icon svg { width: 32px; height: 32px; stroke-width: 2; }
+.bk-success h2 { margin: 0 0 10px; font-size: 1.375rem; font-weight: 600; color: var(--navy); }
+.bk-success p {
+  margin: 0 auto; max-width: 34em; font-size: 1rem; font-weight: 300; line-height: 1.75; color: var(--slate);
+}
+.bk-success .btn { margin-top: 26px; background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+.bk-success .btn:hover { background: var(--navy); color: #fff; }
+
+@media (max-width: 560px) {
+  .bk-row { grid-template-columns: 1fr; gap: 26px; }
+}
+
+/* -------------------------------------------------------------------
+   Promo banners — vertical poster carousel.
+   Content comes from promos.json so marketing can swap images without
+   touching code. Auto-advances on a timer; also swipeable / arrow-able.
+------------------------------------------------------------------- */
+.promos {
+  position: relative;
+  z-index: 2;
+  background: var(--paper);
+  color: var(--navy);
+  font-family: var(--font-kanit);
+  padding: clamp(56px, 7vw, 100px) clamp(20px, 4vw, 40px) clamp(64px, 8vw, 110px);
+}
+.promos__inner { max-width: 1180px; margin-inline: auto; text-align: center; }
+
+.promos__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.9vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+.promos__sub {
+  margin: clamp(10px, 1.4vw, 16px) auto 0;
+  max-width: 44em;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--slate);
+}
+
+.promos__viewport {
+  position: relative;
+  margin-top: clamp(30px, 4vw, 52px);
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.promos__track {
+  display: flex;
+  transition: transform .6s var(--ease);
+  will-change: transform;
+}
+.promos__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+}
+.promos__slide > * {
+  display: block;
+  width: 100%;
+  max-width: 460px;      /* keeps a vertical poster from going huge on desktop */
+  border-radius: 14px;
+  overflow: hidden;
+  background: #EFF2F5;
+  text-decoration: none;
+}
+.promos__slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* Arrows */
+.promos__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.92);
+  color: var(--navy);
+  box-shadow: 0 6px 20px -6px rgba(16,22,28,.35);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s var(--ease), transform .2s var(--ease);
+  z-index: 2;
+}
+.promos__nav:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+.promos__nav:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 2px; }
+.promos__nav svg { width: 20px; height: 20px; stroke-width: 2.2; }
+.promos__nav--prev { left: clamp(8px, 2vw, 20px); }
+.promos__nav--next { right: clamp(8px, 2vw, 20px); }
+
+/* Dots */
+.promos__dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: clamp(18px, 2.4vw, 26px);
+}
+.promos__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: #CBD3DA;
+  cursor: pointer;
+  transition: background .25s var(--ease), transform .25s var(--ease);
+}
+.promos__dot[aria-current="true"] { background: var(--brand-red); transform: scale(1.25); }
+.promos__dot:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 3px; }
+
+.promos__empty {
+  padding: 48px 20px;
+  color: var(--slate);
+  font-size: .9375rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promos__track { transition: none; }
+}
+
+/* -------------------------------------------------------------------
+   Scroll reveal.
+   Stagger is driven by an explicit --i so it stays correct regardless
+   of where the element sits among its siblings.
+------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity .75s var(--ease), transform .75s var(--ease);
+  transition-delay: calc(var(--i, 0) * 80ms);
+}
+.reveal[data-shown="true"] { opacity: 1; transform: none; }
+
+/* -------------------------------------------------------------------
+   Motion
+------------------------------------------------------------------- */
+@keyframes rise  { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes drop  { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+@keyframes nudge { 0%, 100% { transform: translateY(0); opacity: .55; } 50% { transform: translateY(5px); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* -------------------------------------------------------------------
+   Responsive — nav shell
+------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  :root { --shell: 92vw; --nav-h: 62px; }
+  .nav { padding-inline: 18px; justify-content: space-between; }
+  /* keep the burger, drop the inline links */
+  .nav__group--right { display: none; }
+  .nav__group--left { flex: 0 0 auto; gap: 0; }
+  .nav__group--left .nav__link { display: none; }
+  .nav__burger { margin-left: 0; }
+  .nav::after { content: ""; width: 40px; flex: 0 0 auto; } /* balances the burger */
+  .logo__mark { height: 30px; }
+}
+
+@media (min-width: 901px) {
+  .panel { display: none; }
+}
+
+@media (max-width: 420px) {
+  .logo__mark { height: 27px; }
+}
+
+/* ---------------------------------------------------------------
+   Site footer — shared across public pages
+--------------------------------------------------------------- */
+.site-footer {
+  position: relative;
+  z-index: 2;
+  background: #10161C;
+  color: #C7CDD3;
+  font-family: var(--font-kanit);
+  padding: clamp(48px, 6vw, 76px) clamp(20px, 4vw, 40px) clamp(28px, 3vw, 40px);
+}
+.site-footer__inner { max-width: 1100px; margin-inline: auto; }
+
+.site-footer__brands {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 4vw, 48px);
+  margin-bottom: clamp(28px, 3.6vw, 40px);
+}
+.site-footer__brands img { display: block; height: clamp(30px, 4vw, 42px); width: auto; }
+.site-footer__divider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 30px;
+  background: rgba(255,255,255,.18);
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 34px);
+  margin-bottom: clamp(24px, 3vw, 34px);
+}
+.site-footer__links a {
+  color: #C7CDD3;
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 400;
+  transition: color .2s var(--ease);
+}
+.site-footer__links a:hover { color: #fff; }
+.site-footer__links a:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 3px; border-radius: 2px; }
+
+.site-footer__social {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: clamp(28px, 3.6vw, 40px);
+}
+.site-footer__social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  color: #C7CDD3;
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.site-footer__social svg { width: 16px; height: 16px; }
+.site-footer__social a:hover { background: var(--brand-red); color: #fff; }
+.site-footer__social a:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 3px; }
+
+.site-footer__legal {
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: clamp(20px, 2.6vw, 28px);
+}
+.site-footer__legal p {
+  margin: 0 0 6px;
+  font-size: .8125rem;
+  line-height: 1.75;
+  color: #88929B;
+  max-width: 46em;
+  margin-inline: auto;
+}
+.site-footer__legal p:last-child { margin-bottom: 0; }
+.site-footer__legal strong { color: #A9AFB6; font-weight: 500; }

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>รายการคำขอจอง (แอดมิน) — SUPHAN MOTORSALE</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="site.css?v=7" />
+
+<style>
+  :root { --page-bg: #FAFBFC; --page-fg: var(--navy); }
+
+  body { font-family: var(--font-kanit); }
+
+  .admin-head {
+    padding: 20px clamp(16px, 4vw, 40px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid #E7EBEF;
+  }
+  .admin-head a.logo-link {
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .admin-head span.tag {
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--slate);
+    background: #EEF1F4;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  main { padding: clamp(24px, 4vw, 48px) clamp(16px, 4vw, 40px) 96px; }
+  .wrap { max-width: 1100px; margin-inline: auto; }
+
+  /* ---- Gate ---- */
+  .gate {
+    max-width: 380px;
+    margin: clamp(60px, 12vh, 140px) auto 0;
+    text-align: center;
+  }
+  .gate h1 { font-size: 1.25rem; font-weight: 600; color: var(--navy); margin: 0 0 8px; }
+  .gate p { font-size: .9375rem; color: var(--slate); margin: 0 0 24px; line-height: 1.6; }
+  .gate input {
+    width: 100%;
+    text-align: center;
+    letter-spacing: .12em;
+    border: 1.5px solid #D9DEE3;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: var(--font-kanit);
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .gate input:focus { outline: none; border-color: var(--navy); }
+  .gate .btn { width: 100%; border: 0; cursor: pointer; }
+  .gate__error { display: none; color: #A32626; font-size: .875rem; margin-bottom: 12px; }
+  .gate__error[data-show="true"] { display: block; }
+
+  /* ---- Warning banner: the whole point is that this is NOT a real inbox ---- */
+  .warn {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #FFF6E8;
+    border: 1px solid #F3DDAE;
+    color: #7A5B15;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: .875rem;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+  .warn svg { flex: 0 0 auto; width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+  .warn strong { display: block; margin-bottom: 2px; }
+
+  /* ---- Toolbar ---- */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .toolbar h2 { margin: 0; font-size: 1.125rem; font-weight: 600; color: var(--navy); }
+  .toolbar .count { font-size: .875rem; color: var(--slate); font-weight: 400; margin-left: 8px; }
+
+  .seg { display: inline-flex; border: 1px solid #D9DEE3; border-radius: 8px; overflow: hidden; }
+  .seg button {
+    font-family: var(--font-kanit);
+    font-size: .8125rem;
+    font-weight: 500;
+    color: var(--slate);
+    background: #fff;
+    border: 0;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid #D9DEE3; }
+  .seg button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+
+  .tool-actions { display: flex; gap: 10px; }
+  .tool-actions button {
+    font-family: var(--font-kanit);
+    font-size: .8125rem;
+    font-weight: 500;
+    color: var(--navy);
+    background: #fff;
+    border: 1px solid #D9DEE3;
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tool-actions button:hover { border-color: var(--navy); }
+  .tool-actions button svg { width: 15px; height: 15px; stroke-width: 2; }
+  .tool-actions .danger { color: #A32626; }
+  .tool-actions .danger:hover { border-color: #A32626; }
+
+  /* ---- Table ---- */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid #E7EBEF;
+    border-radius: 10px;
+    background: #fff;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: .875rem; min-width: 780px; }
+  thead th {
+    text-align: left;
+    font-weight: 500;
+    color: var(--slate);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 12px 16px;
+    border-bottom: 1px solid #E7EBEF;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 13px 16px;
+    border-bottom: 1px solid #F1F3F5;
+    color: var(--navy);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background: #FAFBFC; }
+  td a.phone { color: var(--navy); font-weight: 500; text-decoration: none; }
+  td a.phone:hover { color: var(--brand-red); }
+  .muted-cell { color: var(--muted); }
+
+  .status-btn {
+    font-family: var(--font-kanit);
+    font-size: .75rem;
+    font-weight: 500;
+    border-radius: 999px;
+    padding: 6px 13px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .status-btn[data-called="false"] { background: #FCEEEE; color: #A32626; border-color: #F3C9C9; }
+  .status-btn[data-called="true"]  { background: #E9F6EE; color: #1E8A4C; border-color: #CBEAD7; }
+
+  .type-badge {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .type-badge[data-type="test-drive"] { background: #EAF1FE; color: #1D5FC4; }
+  .type-badge[data-type="service"]    { background: #FDF1E3; color: #A15A0A; }
+
+  .empty {
+    text-align: center;
+    padding: 56px 20px;
+    color: var(--slate);
+    font-size: .9375rem;
+  }
+  .empty svg { width: 34px; height: 34px; stroke-width: 1.6; color: var(--muted); margin-bottom: 12px; }
+</style>
+</head>
+
+<body>
+
+  <header class="admin-head">
+    <a class="logo-link" href="index.html">SUPHAN MOTORSALE</a>
+    <span class="tag">สำหรับแอดมินเท่านั้น</span>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <!-- ===================== PIN GATE ===================== -->
+      <div id="gate" class="gate">
+        <h1>เข้าสู่ระบบแอดมิน</h1>
+        <p>กรอกรหัสผ่านเพื่อดูรายการคำขอจอง</p>
+        <div id="gate-error" class="gate__error">รหัสผ่านไม่ถูกต้อง</div>
+        <input type="password" id="gate-pin" placeholder="รหัสผ่าน" autocomplete="off" />
+        <button class="btn" id="gate-submit">เข้าสู่ระบบ</button>
+      </div>
+
+      <!-- ===================== DASHBOARD ===================== -->
+      <div id="dash" style="display:none">
+
+        <div class="warn">
+          <i data-lucide="triangle-alert"></i>
+          <div>
+            <strong>ข้อมูลนี้บันทึกอยู่ในเบราว์เซอร์เครื่องนี้เท่านั้น</strong>
+            หากลูกค้ากรอกแบบฟอร์มจากมือถือหรือคอมพิวเตอร์เครื่องอื่น รายการจะ<strong>ไม่ปรากฏที่นี่</strong>
+            หน้านี้เป็นต้นแบบสำหรับทดสอบการใช้งานเท่านั้น — สำหรับใช้งานจริงที่แอดมินต้องเห็นข้อมูลจากทุกอุปกรณ์
+            จำเป็นต้องเชื่อมต่อกับระบบฐานข้อมูลกลาง (เช่น Google Sheet หรือเซิร์ฟเวอร์) ซึ่งยังไม่ได้ตั้งค่าไว้ในขณะนี้
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <h2>รายการคำขอจอง<span class="count" id="result-count"></span></h2>
+          <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center;">
+            <div class="seg" role="group" aria-label="ประเภทคำขอ">
+              <button type="button" data-group="type" data-value="all" aria-pressed="true">ทั้งหมด</button>
+              <button type="button" data-group="type" data-value="test-drive" aria-pressed="false">ทดลองขับ</button>
+              <button type="button" data-group="type" data-value="service" aria-pressed="false">จองบริการ</button>
+            </div>
+            <div class="seg" role="group" aria-label="ช่วงเวลา">
+              <button type="button" data-group="range" data-value="today" aria-pressed="true">วันนี้</button>
+              <button type="button" data-group="range" data-value="all" aria-pressed="false">ทั้งหมด</button>
+            </div>
+            <div class="tool-actions">
+              <button type="button" id="refresh-btn"><i data-lucide="refresh-cw"></i>รีเฟรช</button>
+              <button type="button" id="clear-btn" class="danger"><i data-lucide="trash-2"></i>ล้างข้อมูลทดสอบ</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>เวลาที่จอง</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>เบอร์โทร</th>
+                <th>ประเภท</th>
+                <th>รายละเอียด</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <div id="empty" class="empty" style="display:none">
+            <div><i data-lucide="inbox"></i></div>
+            ยังไม่มีรายการจองในช่วงเวลานี้
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="bookings.js"></script>
+  <script>
+  (function () {
+    /* ------------------------------------------------------------
+       NOT REAL SECURITY. This PIN lives in plain text in this file
+       and is visible to anyone who views page source — it only
+       deters casual clicks, it does not protect customer data.
+       Swap for real auth before this ever handles real bookings.
+    ------------------------------------------------------------ */
+    const ADMIN_PIN = 'suphan2026';
+    const SESSION_KEY = 'suphan_admin_ok';
+
+    const gate = document.getElementById('gate');
+    const dash = document.getElementById('dash');
+    const pinInput = document.getElementById('gate-pin');
+    const gateError = document.getElementById('gate-error');
+
+    function enter() {
+      gate.style.display = 'none';
+      dash.style.display = '';
+      renderRows();
+    }
+
+    function tryPin() {
+      if (pinInput.value === ADMIN_PIN) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        enter();
+      } else {
+        gateError.dataset.show = 'true';
+        pinInput.select();
+      }
+    }
+
+    document.getElementById('gate-submit').addEventListener('click', tryPin);
+    pinInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryPin(); });
+    pinInput.addEventListener('input', function () { gateError.dataset.show = 'false'; });
+
+    if (sessionStorage.getItem(SESSION_KEY) === '1') enter();
+
+    /* ------------------------------------------------------------
+       Dashboard
+    ------------------------------------------------------------ */
+    let range = 'today';
+    let typeFilter = 'all';
+    const rowsEl = document.getElementById('rows');
+    const emptyEl = document.getElementById('empty');
+    const countEl = document.getElementById('result-count');
+
+    const TYPE_LABELS = { 'test-drive': 'ทดลองขับ', 'service': 'จองบริการ' };
+
+    function fmtPhone(p) {
+      const d = (p || '').replace(/\D/g, '');
+      if (d.length === 10) return d.slice(0,3) + '-' + d.slice(3,6) + '-' + d.slice(6);
+      if (d.length === 9)  return d.slice(0,2) + '-' + d.slice(2,5) + '-' + d.slice(5);
+      return p;
+    }
+    function fmtTime(iso) {
+      const d = new Date(iso);
+      const time = d.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+      if (range === 'all') {
+        const date = d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short' });
+        return date + ' · ' + time + ' น.';
+      }
+      return time + ' น.';
+    }
+    function fmtServiceDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso + 'T00:00:00');
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+    function nameFor(b) {
+      if (b.type === 'service') return b.fullName || '—';
+      return (esc((b.firstName || '') + ' ' + (b.lastName || '')).trim()) || '—';
+    }
+    function detailsFor(b) {
+      if (b.type === 'service') {
+        const parts = [];
+        if (b.model) parts.push(esc(b.model) + (b.plate ? ' (' + esc(b.plate) + ')' : ''));
+        if (b.serviceType) parts.push(esc(b.serviceType));
+        if (b.date) parts.push(fmtServiceDate(b.date) + (b.timeSlot ? ' · ' + esc(b.timeSlot) : ''));
+        return parts.join(' · ') || '—';
+      }
+      // test-drive (default, also covers any legacy entries with no type)
+      const parts = [];
+      if (b.model) parts.push('รุ่น ' + esc(b.model));
+      if (b.branch) parts.push(esc(b.branch));
+      if (b.email) parts.push(esc(b.email));
+      return parts.join(' · ') || '—';
+    }
+
+    function renderRows() {
+      const base = range === 'today' ? window.SuphanBookings.today() : window.SuphanBookings.all();
+      const list = base
+        .filter(function (b) { return typeFilter === 'all' || (b.type || 'test-drive') === typeFilter; })
+        .slice()
+        .sort(function (a, b) { return new Date(b.ts) - new Date(a.ts); });
+
+      countEl.textContent = ' (' + list.length + ' รายการ)';
+
+      if (!list.length) {
+        rowsEl.innerHTML = '';
+        emptyEl.style.display = '';
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+      emptyEl.style.display = 'none';
+
+      rowsEl.innerHTML = list.map(function (b) {
+        const type = b.type || 'test-drive';
+        return (
+          '<tr>' +
+            '<td class="muted-cell">' + fmtTime(b.ts) + '</td>' +
+            '<td>' + nameFor(b) + '</td>' +
+            '<td><a class="phone" href="tel:+66' + esc((b.phone||'').replace(/^0/,'')) + '">' + esc(fmtPhone(b.phone)) + '</a></td>' +
+            '<td><span class="type-badge" data-type="' + type + '">' + (TYPE_LABELS[type] || type) + '</span></td>' +
+            '<td class="muted-cell">' + detailsFor(b) + '</td>' +
+            '<td><button type="button" class="status-btn" data-id="' + esc(b.id) + '" data-called="' + !!b.called + '">' +
+              (b.called ? 'โทรกลับแล้ว' : 'ยังไม่โทรกลับ') +
+            '</button></td>' +
+          '</tr>'
+        );
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    document.querySelectorAll('.seg').forEach(function (group) {
+      group.querySelectorAll('button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          group.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+          btn.setAttribute('aria-pressed', 'true');
+          if (btn.dataset.group === 'range') range = btn.dataset.value;
+          else typeFilter = btn.dataset.value;
+          renderRows();
+        });
+      });
+    });
+
+    rowsEl.addEventListener('click', function (e) {
+      const btn = e.target.closest('.status-btn');
+      if (!btn) return;
+      const next = btn.dataset.called !== 'true';
+      window.SuphanBookings.setCalled(btn.dataset.id, next);
+      renderRows();
+    });
+
+    document.getElementById('refresh-btn').addEventListener('click', renderRows);
+
+    document.getElementById('clear-btn').addEventListener('click', function () {
+      if (confirm('ลบรายการคำขอจองทั้งหมดที่บันทึกไว้ในเบราว์เซอร์นี้? การกระทำนี้ย้อนกลับไม่ได้')) {
+        localStorage.removeItem(window.SuphanBookings.KEY);
+        renderRows();
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
