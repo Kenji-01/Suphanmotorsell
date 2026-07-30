@@ -1,0 +1,843 @@
+{
+ "models": [
+  {
+   "name": "ADV160",
+   "slug": "adv160",
+   "cover": {
+    "src": "assets/bikes/adv160/cover.webp",
+    "w": 900,
+    "h": 685,
+    "from": "ADV160_H2C.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/adv160/g1-adv160-h2c.webp",
+     "w": 1500,
+     "h": 1141,
+     "from": "ADV160_H2C.jpg"
+    }
+   ],
+   "colors": [],
+   "sellingPoints": [
+    {
+     "src": "assets/bikes/adv160/s1-esp-h2c-lowres.webp",
+     "w": 1500,
+     "h": 1060,
+     "from": "ESP_H2C_Lowres.png",
+     "label": "ระบบ eSP+"
+    },
+    {
+     "src": "assets/bikes/adv160/s2-s01-adv063-0055.webp",
+     "w": 1500,
+     "h": 1125,
+     "from": "S01-ADV063_0055.png",
+     "label": "ดีไซน์ท้ายรถ"
+    },
+    {
+     "src": "assets/bikes/adv160/s3-s02-adv063-0086.webp",
+     "w": 1500,
+     "h": 1181,
+     "from": "S02-ADV063_0086.png",
+     "label": "ช่วงล่างและระบบเบรก"
+    }
+   ],
+   "subfolder": "Selling point"
+  },
+  {
+   "name": "All New Honda PCX160",
+   "slug": "all-new-honda-pcx160",
+   "cover": {
+    "src": "assets/bikes/all-new-honda-pcx160/cover.webp",
+    "w": 900,
+    "h": 744,
+    "from": "ABS_LCD_Grey_Lowres (1).jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/g1-abs-lcd-grey-lowres-1.webp",
+     "w": 1500,
+     "h": 1240,
+     "from": "ABS_LCD_Grey_Lowres (1).jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/g2-abs-tft-blue-lowres.webp",
+     "w": 1500,
+     "h": 1442,
+     "from": "ABS_TFT_Blue_Lowres.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/c1-abs-lcd-black-lowres.webp",
+     "w": 1500,
+     "h": 1007,
+     "from": "ABS_LCD_Black_Lowres.jpg",
+     "label": "Black — ABS/LCD"
+    },
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/c2-abs-lcd-blue-lowres.webp",
+     "w": 1500,
+     "h": 1007,
+     "from": "ABS_LCD_Blue_Lowres.jpg",
+     "label": "Blue — ABS/LCD"
+    },
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/c3-abs-lcd-grey-lowres.webp",
+     "w": 1500,
+     "h": 1007,
+     "from": "ABS_LCD_Grey_Lowres.jpg",
+     "label": "Grey — ABS/LCD"
+    },
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/c4-abs-tft-blue-copper-lowres.webp",
+     "w": 1500,
+     "h": 1007,
+     "from": "ABS_TFT_Blue_Copper_Lowres.jpg",
+     "label": "Blue Copper — ABS/TFT"
+    },
+    {
+     "src": "assets/bikes/all-new-honda-pcx160/c5-abs-tft-red-copper-lowres.webp",
+     "w": 1500,
+     "h": 1007,
+     "from": "ABS_TFT_Red_Copper_Lowres.jpg",
+     "label": "Red Copper — ABS/TFT"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "All New Supercub 2025",
+   "slug": "all-new-supercub-2025",
+   "cover": {
+    "src": "assets/bikes/all-new-supercub-2025/cover.webp",
+    "w": 900,
+    "h": 762,
+    "from": "All_New_Supercub_2025_Styling_45_SBW.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/all-new-supercub-2025/g1-all-new-supercub-2025-styling-45-sbw.webp",
+     "w": 1500,
+     "h": 1269,
+     "from": "All_New_Supercub_2025_Styling_45_SBW.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-supercub-2025/g2-all-new-supercub-2025-styling-45-y-w.webp",
+     "w": 1500,
+     "h": 1269,
+     "from": "All_New_Supercub_2025_Styling_45_Y-W.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-supercub-2025/g3-all-new-supercub-2025-styling-90-y-w.webp",
+     "w": 1500,
+     "h": 1000,
+     "from": "All_New_Supercub_2025_Styling_90_Y-W_.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-supercub-2025/g4-all-new-supercub-2025-styling-front-y-w.webp",
+     "w": 1500,
+     "h": 2544,
+     "from": "All_New_Supercub_2025_Styling_Front_Y-W.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/all-new-supercub-2025/c1-all-new-supercub-2025-colorchart-g-w-lowres.webp",
+     "w": 1500,
+     "h": 1340,
+     "from": "All_New_Supercub_2025_Colorchart_G-W_Lowres.png",
+     "label": "G-W"
+    },
+    {
+     "src": "assets/bikes/all-new-supercub-2025/c2-all-new-supercub-2025-colorchart-grn-lowres.webp",
+     "w": 1500,
+     "h": 1340,
+     "from": "All_New_Supercub_2025_Colorchart_GRN_Lowres.png",
+     "label": "GRN"
+    },
+    {
+     "src": "assets/bikes/all-new-supercub-2025/c3-all-new-supercub-2025-colorchart-sbw-lowres.webp",
+     "w": 1500,
+     "h": 1340,
+     "from": "All_New_Supercub_2025_Colorchart_SBW_Lowres.png",
+     "label": "SBW"
+    },
+    {
+     "src": "assets/bikes/all-new-supercub-2025/c4-all-new-supercub-2025-colorchart-y-w-lowres.webp",
+     "w": 1500,
+     "h": 1340,
+     "from": "All_New_Supercub_2025_Colorchart_Y-W_Lowres.png",
+     "label": "Y-W"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "All New Wave110 2026",
+   "slug": "all-new-wave110-2026",
+   "cover": {
+    "src": "assets/bikes/all-new-wave110-2026/cover.webp",
+    "w": 900,
+    "h": 847,
+    "from": "All_New_WAVE110_2025_Styling_L_Lowres.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/all-new-wave110-2026/g1-all-new-wave110-2025-styling-l-lowres.webp",
+     "w": 1500,
+     "h": 1412,
+     "from": "All_New_WAVE110_2025_Styling_L_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/g2-all-new-wave110-2025-styling-r-lowres.webp",
+     "w": 1500,
+     "h": 1336,
+     "from": "All_New_WAVE110_2025_Styling_R_Lowres.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c1-all-new-wave110-2025-colorchart-drumbreake-black-blk.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Drumbreake_Black_BLK.png",
+     "label": "Black — ดรัมเบรก"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c2-all-new-wave110-2025-colorchart-max-wheel-blue-blu.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Max_Wheel_Blue_BLU.png",
+     "label": "Blue — Max Wheel"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c3-all-new-wave110-2025-colorchart-max-wheel-gray-gbr.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Max_Wheel_Gray_GBR.png",
+     "label": "Gray — Max Wheel"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c4-all-new-wave110-2025-colorchart-max-wheel-red-red.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Max_Wheel_Red_RED.png",
+     "label": "Red — Max Wheel"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c5-all-new-wave110-2025-colorchart-special-black-bbr.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Special_Black_BBR.png",
+     "label": "Black — Special"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c6-all-new-wave110-2025-colorchart-special-white-wbr.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Special_White_WBR.png",
+     "label": "White — Special"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c7-all-new-wave110-2025-colorchart-spokes-wheel-black-bbr.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Spokes_Wheel_Black_BBR.png",
+     "label": "Black — ล้อซี่ลวด"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c8-all-new-wave110-2025-colorchart-spokes-wheel-blue-bub.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Spokes_Wheel_Blue_BUB.png",
+     "label": "Blue — ล้อซี่ลวด"
+    },
+    {
+     "src": "assets/bikes/all-new-wave110-2026/c9-all-new-wave110-2025-colorchart-spokes-wheel-gray-g-b.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "All_New_WAVE110_2025_ColorChart_Spokes_Wheel_Gray_G-B.png",
+     "label": "Gray — ล้อซี่ลวด"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "All New Wave125 2025",
+   "slug": "all-new-wave125-2025",
+   "cover": {
+    "src": "assets/bikes/all-new-wave125-2025/cover.webp",
+    "w": 900,
+    "h": 709,
+    "from": "S13-W163_0818_Lowres.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/all-new-wave125-2025/g1-s12-w163-0698-lowres.webp",
+     "w": 1500,
+     "h": 1401,
+     "from": "S12-W163_0698__Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/g2-s13-w163-0818-lowres.webp",
+     "w": 1500,
+     "h": 1181,
+     "from": "S13-W163_0818_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/g3-s2-01-w162-0115-lowres.webp",
+     "w": 1500,
+     "h": 1471,
+     "from": "S2-01-W162_0115_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/g4-s2-02-w162-0259-blue-lowres.webp",
+     "w": 1500,
+     "h": 1387,
+     "from": "S2-02-W162_0259_Blue_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/g5-s2-02-w162-0259-brown-lowres.webp",
+     "w": 1500,
+     "h": 1387,
+     "from": "S2-02-W162_0259_Brown_Lowres.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/all-new-wave125-2025/c1-honda-wave125-black-lowres.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "Honda Wave125 Black Lowres.jpg",
+     "label": "Black"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/c2-honda-wave125-white-lowres.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "Honda Wave125 White Lowres.jpg",
+     "label": "White"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/c3-honda-wave125-blue-lowres.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "Honda Wave125 blue Lowres.jpg",
+     "label": "Blue"
+    },
+    {
+     "src": "assets/bikes/all-new-wave125-2025/c4-honda-wave125-brown-lowres.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "Honda Wave125 brown Lowres.jpg",
+     "label": "Brown"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "CBR150R 2025",
+   "slug": "cbr150r-2025",
+   "cover": {
+    "src": "assets/bikes/cbr150r-2025/cover.webp",
+    "w": 900,
+    "h": 606,
+    "from": "New_CBR_150R_with_Talent_Lowres.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/cbr150r-2025/g1-new-cbr-150r-with-talent-lowres.webp",
+     "w": 1500,
+     "h": 1010,
+     "from": "New_CBR_150R_with_Talent_Lowres.jpg"
+    }
+   ],
+   "colors": [],
+   "sellingPoints": []
+  },
+  {
+   "name": "CL300 STD 2025",
+   "slug": "cl300-std-2025",
+   "cover": {
+    "src": "assets/bikes/cl300-std-2025/cover.webp",
+    "w": 900,
+    "h": 636,
+    "from": "2024-CL300 MAT GUNPOWDER BLACK.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/cl300-std-2025/g1-2024-cl300-mat-gunpowder-black.webp",
+     "w": 1500,
+     "h": 1061,
+     "from": "2024-CL300 MAT GUNPOWDER BLACK.jpg"
+    },
+    {
+     "src": "assets/bikes/cl300-std-2025/g2-2024-cl300-jp-pearl-dusk-yellow.webp",
+     "w": 1500,
+     "h": 1061,
+     "from": "2024-CL300_JP_Pearl Dusk Yellow.jpg"
+    }
+   ],
+   "colors": [],
+   "sellingPoints": []
+  },
+  {
+   "name": "Giorno+",
+   "slug": "giorno",
+   "cover": {
+    "src": "assets/bikes/giorno/cover.webp",
+    "w": 900,
+    "h": 588,
+    "from": "S01_Gon802_0038_Lowres.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/giorno/g1-gon083-0161-lowres.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "Gon083_0161_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/giorno/g2-s01-gon802-0038-lowres.webp",
+     "w": 1500,
+     "h": 980,
+     "from": "S01_Gon802_0038_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/giorno/g3-s02-gon802-012-lowres.webp",
+     "w": 1500,
+     "h": 1455,
+     "from": "S02_Gon802_012_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/giorno/g4-s3-01gon083-0058-lowres.webp",
+     "w": 1500,
+     "h": 2400,
+     "from": "S3-01Gon083_0058_Lowres.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/giorno/c1-gon802-0215-black-abs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0215 Black_ABS.jpg",
+     "label": "Black — ABS"
+    },
+    {
+     "src": "assets/bikes/giorno/c2-gon802-0215-silver-abs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0215 Silver_ABS.jpg",
+     "label": "Silver — ABS"
+    },
+    {
+     "src": "assets/bikes/giorno/c3-gon802-0215-white-abs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0215 White_ABS.jpg",
+     "label": "White — ABS"
+    },
+    {
+     "src": "assets/bikes/giorno/c4-gon802-0215-yellow-abs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0215 Yellow_ABS.jpg",
+     "label": "Yellow — ABS"
+    },
+    {
+     "src": "assets/bikes/giorno/c5-gon802-0243-cyan-cbs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0243 Cyan_CBS.jpg",
+     "label": "Cyan — CBS"
+    },
+    {
+     "src": "assets/bikes/giorno/c6-gon802-0243-green-cbs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0243 Green_CBS.jpg",
+     "label": "Green — CBS"
+    },
+    {
+     "src": "assets/bikes/giorno/c7-gon802-0243-grey-cbs.webp",
+     "w": 1500,
+     "h": 1285,
+     "from": "Gon802_0243 Grey_CBS.jpg",
+     "label": "Grey — CBS"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "NEW FORZA350",
+   "slug": "new-forza350",
+   "cover": {
+    "src": "assets/bikes/new-forza350/cover.webp",
+    "w": 900,
+    "h": 818,
+    "from": "FZ13_0034_Forza350 styling.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/new-forza350/g1-forza350-colorchart.webp",
+     "w": 1234,
+     "h": 926,
+     "from": "FORZA350 colorchart.jpg"
+    },
+    {
+     "src": "assets/bikes/new-forza350/g2-fz13-0034-forza350-styling.webp",
+     "w": 1500,
+     "h": 1364,
+     "from": "FZ13_0034_Forza350 styling.jpg"
+    }
+   ],
+   "colors": [],
+   "sellingPoints": [
+    {
+     "src": "assets/bikes/new-forza350/s1-honda-forza350-inner-box.webp",
+     "w": 1222,
+     "h": 810,
+     "from": "HONDA_FORZA350_Inner Box.jpg",
+     "label": "ช่องเก็บของ Inner Box"
+    },
+    {
+     "src": "assets/bikes/new-forza350/s2-honda-forza350-roadsync.webp",
+     "w": 1500,
+     "h": 1210,
+     "from": "Honda Forza350 Roadsync.jpg",
+     "label": "Honda RoadSync"
+    },
+    {
+     "src": "assets/bikes/new-forza350/s3-honda-forza350-u-box.webp",
+     "w": 1500,
+     "h": 1092,
+     "from": "Honda Forza350 U Box.jpg",
+     "label": "ช่องเก็บของ U-Box"
+    },
+    {
+     "src": "assets/bikes/new-forza350/s4-honda-forza350-meter.webp",
+     "w": 1050,
+     "h": 750,
+     "from": "Honda Forza350 meter.jpg",
+     "label": "หน้าจอเรือนไมล์"
+    },
+    {
+     "src": "assets/bikes/new-forza350/s5-honda-forza350-sellpoint.webp",
+     "w": 1296,
+     "h": 2160,
+     "from": "Honda Forza350 sellpoint.jpg",
+     "label": "ดีไซน์ด้านหน้า"
+    },
+    {
+     "src": "assets/bikes/new-forza350/s6-sellpoint-honda-forza350-rearlamp-edit-lowres.webp",
+     "w": 1500,
+     "h": 985,
+     "from": "Sellpoint Honda Forza350 rearlamp-edit_Lowres.jpg",
+     "label": "ไฟท้าย LED"
+    }
+   ],
+   "subfolder": "Selling point"
+  },
+  {
+   "name": "New ADV160 26YM",
+   "slug": "new-adv160-26ym",
+   "cover": {
+    "src": "assets/bikes/new-adv160-26ym/cover.webp",
+    "w": 900,
+    "h": 796,
+    "from": "ADV160_Green_Lowres.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/new-adv160-26ym/g1-adv160-black-lowres.webp",
+     "w": 1500,
+     "h": 1327,
+     "from": "ADV160_Black_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/new-adv160-26ym/g2-adv160-blue-lowres.webp",
+     "w": 1500,
+     "h": 1327,
+     "from": "ADV160_Blue_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/new-adv160-26ym/g3-adv160-brown-lowres.webp",
+     "w": 1500,
+     "h": 1327,
+     "from": "ADV160_Brown_Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/new-adv160-26ym/g4-adv160-green-lowres.webp",
+     "w": 1500,
+     "h": 1327,
+     "from": "ADV160_Green_Lowres.jpg"
+    }
+   ],
+   "colors": [],
+   "sellingPoints": []
+  },
+  {
+   "name": "New Honda UC3",
+   "slug": "new-honda-uc3",
+   "cover": {
+    "src": "assets/bikes/new-honda-uc3/cover.webp",
+    "w": 900,
+    "h": 1059,
+    "from": "K4HA_0639_S01 copy.png"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/new-honda-uc3/g1-k4ha3-1050-s05-3-copy.webp",
+     "w": 1500,
+     "h": 2666,
+     "from": "K4HA3_1050_S05_3 ไฟต่ำ copy.png"
+    },
+    {
+     "src": "assets/bikes/new-honda-uc3/g2-k4ha3-1050-s05-3-copy.webp",
+     "w": 1500,
+     "h": 2666,
+     "from": "K4HA3_1050_S05_3 ไฟสูง copy.png"
+    },
+    {
+     "src": "assets/bikes/new-honda-uc3/g3-k4ha-0639-s01-copy.webp",
+     "w": 1500,
+     "h": 1766,
+     "from": "K4HA_0639_S01 copy.png"
+    },
+    {
+     "src": "assets/bikes/new-honda-uc3/g4-k4ha-0713-s02-black-copy.webp",
+     "w": 1500,
+     "h": 1453,
+     "from": "K4HA_0713_S02 Black copy.png"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/new-honda-uc3/c1-k4ha-0639-s01-copy-copy.webp",
+     "w": 1500,
+     "h": 1766,
+     "from": "K4HA_0639_S01 copy - Copy.png",
+     "label": "Black"
+    },
+    {
+     "src": "assets/bikes/new-honda-uc3/c2-k4ha-1136-s06-copy.webp",
+     "w": 1500,
+     "h": 1353,
+     "from": "K4HA_1136_S06 copy.png",
+     "label": "White"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "New LEAD125",
+   "slug": "new-lead125",
+   "cover": {
+    "src": "assets/bikes/new-lead125/cover.webp",
+    "w": 900,
+    "h": 900,
+    "from": "Honda Lead Styling Lowres RGB.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/new-lead125/g1-honda-lead-styling-lowres-rgb.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "Honda Lead Styling Lowres RGB.jpg"
+    },
+    {
+     "src": "assets/bikes/new-lead125/g2-honda-lead-styling-lowres-rgb2.webp",
+     "w": 1500,
+     "h": 2087,
+     "from": "Honda Lead Styling Lowres RGB2.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/new-lead125/c1-s02-ld152-0150-cbs-matt-black.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S02-LD152_0150_CBS Matt Black.jpg",
+     "label": "Matt Black — CBS"
+    },
+    {
+     "src": "assets/bikes/new-lead125/c2-s02-ld152-0150-cbs-white.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S02-LD152_0150_CBS White.jpg",
+     "label": "White — CBS"
+    },
+    {
+     "src": "assets/bikes/new-lead125/c3-s03-ld152-0246-abs-matt-black-rgb.webp",
+     "w": 1500,
+     "h": 1502,
+     "from": "S03-LD152_0246_ABS Matt Black_RGB.png",
+     "label": "Matt Black — ABS"
+    },
+    {
+     "src": "assets/bikes/new-lead125/c4-s03-ld152-0246-abs-matt-dim-grey-metallic-rgb.webp",
+     "w": 1500,
+     "h": 1505,
+     "from": "S03-LD152_0246_ABS Matt Dim Grey Metallic_RGB.png",
+     "label": "Matt Dim Grey — ABS"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "New Scoopy",
+   "slug": "new-scoopy",
+   "cover": {
+    "src": "assets/bikes/new-scoopy/cover.webp",
+    "w": 900,
+    "h": 900,
+    "from": "S01-SCP2_0035.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/new-scoopy/g1-s01-scp2-0035.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP2_0035.jpg"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/g2-s02-scp2-0119.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S02-SCP2_0119.jpg"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/g3-s03-scp2-0201-lowres.webp",
+     "w": 1500,
+     "h": 1000,
+     "from": "S03-SCP2_0201 Lowres.jpg"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/g4-s04-scp2-0270.webp",
+     "w": 1500,
+     "h": 2100,
+     "from": "S04-SCP2_0270.jpg"
+    }
+   ],
+   "colors": [
+    {
+     "src": "assets/bikes/new-scoopy/c1-s01-scp3-0059-prestige-black.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP3_0059 Prestige black.jpg",
+     "label": "Prestige Black"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c2-s01-scp3-0059-prestige-green.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP3_0059 Prestige green.jpg",
+     "label": "Prestige Green"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c3-s01-scp3-0059-prestige-white.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP3_0059 Prestige white.jpg",
+     "label": "Prestige White"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c4-s01-scp3-0059-club12-gray.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP3_0059 club12  gray .jpg",
+     "label": "Club12 Gray"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c5-s01-scp3-0059-club12-matt-black-red.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP3_0059 club12 matt black Red.jpg",
+     "label": "Club12 Matt Black/Red"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c6-s01-scp3-0059-club12-white-blue.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S01-SCP3_0059 club12 white blue .jpg",
+     "label": "Club12 White/Blue"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c7-s03-scp3-0218-club-12-pink.webp",
+     "w": 1500,
+     "h": 1500,
+     "from": "S03-SCP3_0218 Club 12 Pink.jpg",
+     "label": "Club12 Pink"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c8-s03-scp3-0218-urban-blue.webp",
+     "w": 1500,
+     "h": 1511,
+     "from": "S03-SCP3_0218 Urban blue.jpg",
+     "label": "Urban Blue"
+    },
+    {
+     "src": "assets/bikes/new-scoopy/c9-s03-scp3-0218-urban-gross-black.webp",
+     "w": 1500,
+     "h": 1511,
+     "from": "S03-SCP3_0218 Urban gross black .jpg",
+     "label": "Urban Gross Black"
+    }
+   ],
+   "sellingPoints": [],
+   "subfolder": "All color"
+  },
+  {
+   "name": "Scoopy cinamom roll",
+   "slug": "scoopy-cinamom-roll",
+   "cover": {
+    "src": "assets/bikes/scoopy-cinamom-roll/cover.webp",
+    "w": 900,
+    "h": 637,
+    "from": "SCOOPY Cinnamoroll Right.jpg"
+   },
+   "gallery": [
+    {
+     "src": "assets/bikes/scoopy-cinamom-roll/g1-scoopy-cinnamoroll-angle45.webp",
+     "w": 1500,
+     "h": 1410,
+     "from": "SCOOPY Cinnamoroll Angle45.jpg"
+    },
+    {
+     "src": "assets/bikes/scoopy-cinamom-roll/g2-scoopy-cinnamoroll-back.webp",
+     "w": 1500,
+     "h": 1944,
+     "from": "SCOOPY Cinnamoroll Back.jpg"
+    },
+    {
+     "src": "assets/bikes/scoopy-cinamom-roll/g3-scoopy-cinnamoroll-front.webp",
+     "w": 1438,
+     "h": 2557,
+     "from": "SCOOPY Cinnamoroll Front.jpg"
+    },
+    {
+     "src": "assets/bikes/scoopy-cinamom-roll/g4-scoopy-cinnamoroll-left.webp",
+     "w": 1500,
+     "h": 1061,
+     "from": "SCOOPY Cinnamoroll Left.jpg"
+    },
+    {
+     "src": "assets/bikes/scoopy-cinamom-roll/g5-scoopy-cinnamoroll-right.webp",
+     "w": 1500,
+     "h": 1062,
+     "from": "SCOOPY Cinnamoroll Right.jpg"
+    }
+   ],
+   "colors": [],
+   "sellingPoints": []
+  }
+ ]
+}
