@@ -43,6 +43,18 @@ var MAX_LIST = 500;      // most recent N bookings returned to admin
 var FLOOD_LIMIT = 10;    // max new bookings accepted per rolling minute
 var MAX_LEN = 200;       // hard cap on any single text field
 
+/* Columns that must never be auto-converted to a number. Sheets will
+   silently strip a leading zero from "0812345678" the moment it looks
+   like a number to Sheets' own type-detection — this happens even when
+   the value arrives from Apps Script as a JS string, and even with the
+   column pre-set to Plain Text via setNumberFormat('@') in getSheet().
+   Prefixing with an apostrophe is the one thing that reliably survives:
+   it forces "treat as text" the same way it does when a human types
+   '0812345678 directly into the sheet. The apostrophe itself is a
+   write-time directive, not stored — getValues() reads back the clean
+   digits, so nothing downstream needs to know about this. */
+var FORCE_TEXT_COLS = { phone: true, plate: true };
+
 /* Script Property names. Set these in the Apps Script editor under
    Project Settings → Script properties. */
 var PROP_PASSPHRASE = 'ADMIN_PASSPHRASE';
@@ -136,7 +148,10 @@ function handleCreate(body) {
       note: ''
     };
 
-    sheet.appendRow(HEADERS.map(function (h) { return row[h]; }));
+    sheet.appendRow(HEADERS.map(function (h) {
+      var v = row[h];
+      return (FORCE_TEXT_COLS[h] && v) ? ("'" + v) : v;
+    }));
 
     notify(row);
     return json({ ok: true, id: row.id });
