@@ -466,18 +466,22 @@ body {
 .promos__slide > * {
   display: block;
   width: 100%;
-  max-width: 460px;      /* keeps a vertical poster from going huge on desktop */
+  max-width: 460px;      /* keeps a poster from going huge on desktop */
   border-radius: 14px;
   overflow: hidden;
   background: #EFF2F5;
   text-decoration: none;
 }
+/* 1:1 because Honda ships these banners square. `contain`, not `cover`:
+   the Honda wing sits in the top-right corner and the Thai headline in the
+   bottom-right, so any crop eats brand marks or copy. Same reasoning as the
+   bike cards. A future 4:5 upload letterboxes instead of losing its edges. */
 .promos__slide img {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
 }
 
 /* Arrows */

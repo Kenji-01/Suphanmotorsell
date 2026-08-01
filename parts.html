@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Tiro+Devanagari+Marathi:ital@0;1&family=Noto+Sans+Thai:wght@400;500;600&family=Kanit:ital,wght@0,300;0,400;0,500;0,600;1,800;1,900&family=Archivo+Black&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="site.css?v=8" />
+<link rel="stylesheet" href="site.css?v=9" />
 
 <style>
   /* ---- Guide page ---- */
@@ -221,6 +221,27 @@
     color: var(--navy);
   }
   .guide__line-sample span { display: block; color: var(--slate); font-weight: 300; }
+  .guide__line-qr {
+    margin: clamp(22px, 2.8vw, 32px) auto 0;
+    width: clamp(168px, 22vw, 208px);
+  }
+  .guide__line-qr img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #E3E7EB;
+    border-radius: 14px;
+  }
+  .guide__line-qr-cap {
+    margin: 10px 0 0;
+    font-size: .8125rem;
+    font-weight: 300;
+    color: var(--slate);
+  }
+
   .guide__line-actions {
     margin-top: clamp(22px, 2.8vw, 30px);
     display: flex;
@@ -426,11 +447,17 @@
           <span>รุ่นรถ + ปี: ADV150 ปี 2021</span>
         </div>
 
+        <!-- Scan-or-tap: the QR is the shop's own add-friend code, supplied by
+             the owner. Both it and the button resolve to the same LINE link. -->
+        <div class="guide__line-qr">
+          <img src="assets/parts-guide/line-qr.webp" width="720" height="720"
+               loading="lazy" decoding="async"
+               alt="คิวอาร์โค้ดไลน์ของสุพรรณมอเตอร์เซล สแกนเพื่อเพิ่มเพื่อนและสั่งอะไหล่" />
+          <p class="guide__line-qr-cap">สแกนคิวอาร์โค้ดเพื่อเพิ่มเพื่อน</p>
+        </div>
+
         <div class="guide__line-actions">
-          <!-- TODO(owner): replace this href with the real LINE Official Account
-               link, then delete the .guide__line-note warning below. The ID
-               below is INVENTED and does not resolve to the shop's account. -->
-          <a class="guide__line-btn" href="https://line.me/R/ti/p/~@suphanmotorsale" target="_blank" rel="noopener">
+          <a class="guide__line-btn" href="https://line.me/ti/p/hIuzIGAEO5" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 5.79 2 10.463c0 4.19 3.56 7.7 8.37 8.36.325.07.767.215.879.494.1.252.065.647.032.902l-.142.874c-.043.258-.205 1.01.885.55 1.09-.458 5.882-3.463 8.025-5.93C21.463 14.03 22 12.31 22 10.463C22 5.79 17.523 2 12 2ZM7.66 13.36H5.712a.53.53 0 0 1-.53-.529V8.94a.53.53 0 0 1 1.06 0v3.36h1.418a.53.53 0 0 1 0 1.06Zm2.077-.529a.53.53 0 0 1-1.06 0V8.94a.53.53 0 0 1 1.06 0v3.891Zm4.685 0a.53.53 0 0 1-.954.318l-1.996-2.717v2.399a.53.53 0 0 1-1.06 0V8.94a.53.53 0 0 1 .954-.318l1.996 2.717V8.94a.53.53 0 0 1 1.06 0v3.891Zm3.15-2.475a.53.53 0 0 1 0 1.06h-1.418v.884h1.418a.53.53 0 0 1 0 1.06h-1.948a.53.53 0 0 1-.53-.529V8.94a.53.53 0 0 1 .53-.53h1.948a.53.53 0 0 1 0 1.06h-1.418v.886h1.418Z"/></svg>
             <span>เพิ่มเพื่อนทางไลน์</span>
           </a>
@@ -438,8 +465,8 @@
         </div>
 
         <p class="guide__line-note">
-          <span class="nb">ไลน์ไอดี @suphanmotorsale เป็นค่าตัวอย่าง</span>
-          <span class="nb">กรุณาเปลี่ยนเป็นไลน์ไอดีจริงก่อนเผยแพร่</span>
+          <span class="nb">เปิดทำการ จันทร์–เสาร์ 08:00–17:00 น.</span>
+          <span class="nb">ทีมงานจะตอบกลับในเวลาทำการ</span>
         </p>
       </section>
 

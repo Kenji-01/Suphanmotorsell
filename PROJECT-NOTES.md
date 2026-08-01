@@ -47,7 +47,7 @@ nav, scroll reveal), `config.js` (booking endpoint + shop phones), `bookings.js`
 **Cache-busting:** `site.css` is linked as `site.css?v=N` in every page, and since
 2026-07-30 so are `site.js`, `bookings.js`, `config.js`, `promos.js`. Bump N in
 all HTML files whenever any of those files change, or browsers serve a stale copy.
-Currently **v8**.
+Currently **v9**.
 
 ---
 
@@ -176,16 +176,19 @@ no `parts-guide.html` — don't recreate one, and don't reintroduce the
 misspellings, corrected here for a customer-facing page — เว็ปไซน์ → เว็บไซต์,
 ปั้มน้ำ → ปั๊มน้ำ, คลิ๊ก → คลิก, รุป → รูป. Meaning is unchanged.
 
-### ⚠️ LINE ID is a placeholder
-The "เพิ่มเพื่อนทางไลน์" button points at `line.me/R/ti/p/~@suphanmotorsale`,
-which is **invented** — it does not resolve to the shop's account. The owner said
-on 2026-07-30 they would send the real link; it has not arrived yet.
+### LINE contact — real, as of 2026-07-30
+Both the QR and the button resolve to **`https://line.me/ti/p/hIuzIGAEO5`**,
+supplied by the owner. The earlier invented `@suphanmotorsale` ID is gone.
 
-When it does: replace the href (there's a `TODO(owner)` comment on it in
-`parts.html`), **delete the `.guide__line-note` warning paragraph** below the
-button, and drop this section. This is the only LINE link on the site —
-`contact.html` still has Facebook and TikTok only, so consider adding it there
-too.
+`assets/parts-guide/line-qr.webp` is the owner's own LINE add-friend QR,
+re-encoded from their JPG to 720×720 WebP. **It was decoded after conversion to
+confirm it still resolves to that same URL** — do this again if you ever resize
+or recompress it, because a QR that survives a resize visually can still fail to
+scan. Never generate a QR from the URL yourself; the owner's image is the source
+of truth.
+
+This is still the only LINE link on the site — `contact.html` has Facebook and
+TikTok only, so adding it there is worth doing.
 
 ---
 
@@ -220,10 +223,12 @@ for large text. Do not remove the `text-shadow` without re-measuring.
 
 ## Promo banners (marketing-editable)
 
-Vertical poster carousel on the homepage. Auto-advances, swipeable, arrows+dots.
+Poster carousel on the homepage under **โปรโมชั่นและข่าวสาร**. Auto-advances,
+swipeable, arrows+dots.
 
-- **Images:** `assets/promos/` — currently 5 **placeholders**, replace with real
-  Honda artwork. 1080×1350 (4:5) recommended.
+- **Images:** `assets/promos/promo-{1..5}.webp` — **real Honda artwork** since
+  2026-07-30 (My Honda Moto · 160 ตัวจริง · PCX160 · CLICK160 · ADV160).
+  1080×1080, from the owner's 2048² originals.
 - **Config:** `promos.json` — heading, autoplay interval, and the item list
   (image, alt, optional click-through href, active flag, optional start/end dates
   for auto-scheduling).
@@ -232,6 +237,14 @@ Vertical poster carousel on the homepage. Auto-advances, swipeable, arrows+dots.
 Adding/removing a banner needs no code change. `promos.js` fetches the JSON at
 runtime; if `fetch` is blocked (opening the page as `file://`) it falls back to a
 built-in copy so the section still renders. **On a real host it reads the JSON.**
+Keep that fallback list in `promos.js` in sync with `promos.json` — they are two
+separate copies and only the JSON is edited by staff.
+
+⚠️ **Slides are `aspect-ratio: 1/1` + `object-fit: contain`** (was 4/5 + `cover`).
+Honda ships these banners square with the wing logo in the top-right corner and
+the Thai headline bottom-right, so a `cover` crop cut brand marks and copy off
+both. `contain` also means a future 4:5 upload letterboxes rather than losing its
+edges — same contain-over-cover reasoning as the bike cards.
 
 ---
 
@@ -295,7 +308,7 @@ PDPA section covering this.
 version, which would have been an outage on this particular deploy: a returning
 visitor's cached old `bookings.js` (with `add()`) against the new HTML (calling
 `submit()`) means every booking silently fails. **Bump the version in all HTML
-when any of those files change** — same rule as `site.css`. Currently **v8** for
+when any of those files change** — same rule as `site.css`. Currently **v9** for
 both CSS and JS.
 
 ---
@@ -336,9 +349,10 @@ plus `robots.txt` and `sitemap.xml`.
 
 ## Known gaps / next steps
 
-- [ ] Replace the 5 promo placeholders with real Honda banner artwork
-- [ ] **Real LINE Official Account ID** for `parts-guide.html` (placeholder now)
-- [ ] `parts.html` still a placeholder — needs real parts content
+- [x] ~~Replace the 5 promo placeholders~~ — real Honda artwork in, 2026-07-30
+- [x] ~~Real LINE link~~ — owner's QR + link in on `parts.html`, 2026-07-30
+- [x] ~~`parts.html` placeholder~~ — now the 6-step ordering guide
+- [ ] Add the LINE link to `contact.html` too (only FB + TikTok there now)
 - [ ] Founding year on `experience.html` is a highlighted placeholder:
       `[พ.ศ. 2524 / ปีที่ก่อตั้งจริง]` — confirm the real year
 - [ ] **Owner action: run `scripts/apps-script/SETUP-TH.md`** to switch the
