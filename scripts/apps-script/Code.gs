@@ -47,12 +47,13 @@ var MAX_LEN = 200;       // hard cap on any single text field
    silently strip a leading zero from "0812345678" the moment it looks
    like a number to Sheets' own type-detection — this happens even when
    the value arrives from Apps Script as a JS string, and even with the
-   column pre-set to Plain Text via setNumberFormat('@') in getSheet().
-   Prefixing with an apostrophe is the one thing that reliably survives:
-   it forces "treat as text" the same way it does when a human types
-   '0812345678 directly into the sheet. The apostrophe itself is a
-   write-time directive, not stored — getValues() reads back the clean
-   digits, so nothing downstream needs to know about this. */
+   whole column pre-set to Plain Text via setNumberFormat('@') back when
+   the sheet was first created in getSheet(). What actually holds is
+   forcing the format on the exact destination cell again, immediately
+   before that cell's value is set — see writeRow() below. (A leading
+   apostrophe, the usual trick for this in the Sheets UI, does NOT save
+   you here: that is a UI-paste-parsing behaviour, not something
+   Range.setValue() from Apps Script triggers — tested and confirmed.) */
 var FORCE_TEXT_COLS = { phone: true, plate: true };
 
 /* Script Property names. Set these in the Apps Script editor under
@@ -148,16 +149,34 @@ function handleCreate(body) {
       note: ''
     };
 
-    sheet.appendRow(HEADERS.map(function (h) {
-      var v = row[h];
-      return (FORCE_TEXT_COLS[h] && v) ? ("'" + v) : v;
-    }));
+    writeRow(sheet, row);
 
     notify(row);
     return json({ ok: true, id: row.id });
   } finally {
     lock.releaseLock();
   }
+}
+
+/**
+ * Appends one booking as a new row. FORCE_TEXT_COLS columns get their
+ * number format reset to Plain Text on this exact destination cell,
+ * immediately before the value is written to it. That ordering is what
+ * actually stops Sheets' auto-detection from reading "0812345678" as a
+ * number and dropping the leading zero — pre-formatting the column in
+ * bulk once, back when the sheet was created, was not enough on its
+ * own (confirmed: a real test booking still lost its leading zero).
+ */
+function writeRow(sheet, row) {
+  var nextRow = sheet.getLastRow() + 1;
+
+  Object.keys(FORCE_TEXT_COLS).forEach(function (h) {
+    var col = HEADERS.indexOf(h) + 1;
+    sheet.getRange(nextRow, col).setNumberFormat('@');
+  });
+
+  var values = HEADERS.map(function (h) { return row[h]; });
+  sheet.getRange(nextRow, 1, 1, values.length).setValues([values]);
 }
 
 /**
