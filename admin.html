@@ -302,7 +302,6 @@
             </div>
             <div class="tool-actions">
               <button type="button" id="refresh-btn"><i data-lucide="refresh-cw"></i>รีเฟรช</button>
-              <a id="sheet-link" href="#" target="_blank" rel="noopener" hidden><i data-lucide="table-2"></i>เปิด Google Sheet</a>
             </div>
           </div>
         </div>
@@ -363,7 +362,6 @@
     const PASS_KEY = 'suphan_admin_pass';
     const REFRESH_MS = 60000;
 
-    const cfg = window.SUPHAN_CONFIG || {};
     const B = window.SuphanBookings;
 
     const setupNotice = document.getElementById('setup-notice');
@@ -409,12 +407,6 @@
       setupNotice.hidden = false;
       if (window.lucide) lucide.createIcons();
       return;   // nothing else on this page can work yet
-    }
-
-    if (cfg.SHEET_URL) {
-      const link = document.getElementById('sheet-link');
-      link.href = cfg.SHEET_URL;
-      link.hidden = false;
     }
 
     const saved = sessionStorage.getItem(PASS_KEY);

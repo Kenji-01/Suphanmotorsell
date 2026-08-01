@@ -19,7 +19,7 @@ window.SUPHAN_CONFIG = {
      If this is empty, the booking forms tell the customer to phone the
      shop instead of silently pretending the booking was received.
   ----------------------------------------------------------------- */
-  BOOKING_ENDPOINT: '',
+  BOOKING_ENDPOINT: 'https://script.google.com/macros/s/AKfycbwnUYkInjx7H7hl4f_VHeRUb2_O-WmhvvI6KIBxtB8e2XxodvrMwW6iAUkiSPBBXnru3g/exec',
 
   /* -----------------------------------------------------------------
      Fallback phone numbers, shown to a customer when the booking
@@ -27,14 +27,14 @@ window.SUPHAN_CONFIG = {
      เบอร์สำรอง แสดงให้ลูกค้าเมื่อส่งแบบฟอร์มไม่สำเร็จ
   ----------------------------------------------------------------- */
   SHOP_PHONE_HQ: '086-798-1091',
-  SHOP_PHONE_BANGPLAMA: '094-428-5522',
+  SHOP_PHONE_BANGPLAMA: '094-428-5522'
 
-  /* -----------------------------------------------------------------
-     Optional: the Google Sheet that stores the bookings. If set, the
-     admin page shows a button that opens it — that is where staff
-     delete or edit rows (the Sheet has undo and version history; the
-     admin page deliberately has no delete button).
-     ไม่บังคับ: ลิงก์ Google Sheet ที่เก็บข้อมูลจอง
-  ----------------------------------------------------------------- */
-  SHEET_URL: ''
+  /* There used to be a SHEET_URL setting here for an "open Google Sheet"
+     shortcut button on admin.html. Removed: this file is downloaded by
+     every visitor to every page (customers included), not just staff —
+     unlike BOOKING_ENDPOINT, which is meant to be public (customers'
+     browsers call it directly to submit a booking), a direct link to
+     the Sheet holding customer names and phone numbers has no business
+     being in a file anyone can view-source. Just bookmark the Sheet in
+     your own browser instead. */
 };

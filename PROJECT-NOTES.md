@@ -258,7 +258,7 @@ customer's phone shows up on the shop PC. That is new — see *What changed* bel
 |---|---|
 | `scripts/apps-script/Code.gs` | The backend. Pasted into Apps Script, bound to a Sheet. Not served as part of the site. |
 | `scripts/apps-script/SETUP-TH.md` | Thai step-by-step for the owner: create Sheet → paste code → set passphrase → deploy → paste URL. |
-| `config.js` | **The only file to edit** to connect it. Holds `BOOKING_ENDPOINT`, fallback shop phones, optional `SHEET_URL`. |
+| `config.js` | **The only file to edit** to connect it. Holds `BOOKING_ENDPOINT` and fallback shop phones. |
 | `bookings.js` | Async client. Posts bookings, fetches the list, toggles call-back status. |
 | `admin.html` | Passphrase-gated dashboard reading from the Sheet. Auto-refreshes every 60s. |
 
@@ -280,16 +280,35 @@ Only the owner can complete it — it needs their Google account.
   pencil → Version: New version. The URL does not change.
 - The deployment's *Who has access* must be **Anyone**, not *Anyone with a
   Google account*. Customers are not logged into Google.
-- Sheet columns are looked up by header **name**, so reordering columns is safe
-  but renaming a header breaks reads.
-- `phone` and `plate` columns are forced to text format. As numbers, Sheets eats
-  the leading zero off `08x` and mangles plates.
+- Column position is fixed by the order of the `HEADERS` array literal in
+  `Code.gs` — reorder *that array* and the reads/writes stay correct. The
+  actual text typed into row 1 of the Sheet is cosmetic only, never read back
+  by the code (confirmed: retyping the header row into Thai broke nothing).
+  Don't confuse the two.
+- `phone` and `plate` must stay text, or Sheets eats the leading zero off `08x`
+  and mangles plates. **Pre-formatting the whole column once, when the sheet is
+  first created, was not enough** — confirmed live, a real booking still lost
+  its leading zero. What actually holds: `writeRow()` re-forces `setNumberFormat('@')`
+  on the exact destination cell immediately before that cell's value is set,
+  every single write. A leading apostrophe (the usual Sheets-UI trick for this)
+  does **not** help — that's UI paste-parsing behaviour, not something
+  `Range.setValue()` from Apps Script triggers.
 - The flood guard accepts 10 bookings/minute globally (no per-IP data available
   in Apps Script). Fine for this shop, would be wrong for a busy site.
 - Local `localStorage` is now only a **backup outbox**, not the store. A failed
   submission is retried on the customer's next visit, but only if under 24h old —
   a week-old service booking would arrive for a date already past, so it is
   abandoned instead.
+- **`config.js` is downloaded by every visitor to every page, not just staff on
+  `admin.html`.** This repo is public on GitHub too. `BOOKING_ENDPOINT` being in
+  there is fine — it's meant to be public, customers' own browsers call it
+  directly to submit a booking. Never put anything else sensitive in this file.
+  A direct Google Sheet link briefly lived here as an "open sheet" shortcut
+  button on admin.html and was removed for exactly this reason — it handed
+  anyone view-source-ing the site (or browsing the repo) a direct link to the
+  spreadsheet holding customer names and phone numbers. If a shortcut like that
+  is wanted again, it needs to live somewhere only staff can reach (e.g.
+  hardcoded after the passphrase gate, not in a file shipped to every page).
 
 ### Admin auth — changed, read this
 The old plaintext PIN `suphan2026` is **gone**. It sat in `admin.html` where
