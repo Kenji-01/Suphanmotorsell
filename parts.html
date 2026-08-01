@@ -184,6 +184,44 @@
     color: var(--slate);
   }
 
+  /* ---- VAT notice ---- */
+  .guide__vat {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: clamp(18px, 2.2vw, 24px) clamp(18px, 2.4vw, 26px);
+    background: #FFF8F0;
+    border: 1px solid #F2DCC2;
+    border-left: 4px solid #E08A1B;
+    border-radius: 12px;
+    text-align: left;
+  }
+  .guide__vat-icon {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #F7E3CA;
+    color: #8A5310;
+  }
+  .guide__vat-icon svg { width: 19px; height: 19px; stroke-width: 2.1; }
+  .guide__vat-text {
+    margin: 0;
+    font-size: .9375rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #6B4416;
+  }
+  .guide__vat-text strong {
+    display: block;
+    font-weight: 600;
+    color: #7A3E06;
+  }
+
   /* ---- Send-to-LINE panel ---- */
   .guide__line {
     margin: clamp(56px, 7vw, 96px) 0 0;
@@ -431,6 +469,24 @@
         </li>
 
       </ol>
+
+      <!-- Sits between the price table screenshot and the LINE panel on purpose:
+           the customer has just seen a price and is about to ask us to quote it. -->
+      <aside class="guide__vat reveal" style="--i:0">
+        <span class="guide__vat-icon" aria-hidden="true"><i data-lucide="info"></i></span>
+        <!-- .nb chunks kept short enough to fit a 375px screen: they are
+             nowrap, so an over-long chunk pushes the page sideways. -->
+        <p class="guide__vat-text">
+          <strong>
+            <span class="nb">ราคาที่แสดงในเว็บไซต์</span>
+            <span class="nb">ยังไม่รวมภาษีมูลค่าเพิ่ม (VAT)</span>
+          </strong>
+          <span class="nb">ราคาสุทธิที่ต้องชำระจริง</span>
+          <span class="nb">จะสูงกว่าที่เห็นในตาราง</span>
+          <span class="nb">สอบถามราคาสุทธิและค่าจัดส่ง</span>
+          <span class="nb">กับทีมงานทางไลน์ได้เลย</span>
+        </p>
+      </aside>
 
       <section class="guide__line reveal" style="--i:0">
         <h2 class="guide__line-title">ส่งรหัสอะไหล่มาทางไลน์</h2>
