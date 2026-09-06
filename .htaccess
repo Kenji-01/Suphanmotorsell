@@ -91,6 +91,31 @@
   RewriteRule ^(.*)$ https://www.suphanmotorsale.com/$1 [R=301,L]
 </IfModule>
 
+# ---- Staff-only admin page --------------------------------------
+# admin.html shows real customer names and phone numbers. It carries its
+# own passphrase gate, but that passphrase is checked by the Apps Script
+# backend, whose URL config.js hands to every visitor — so the gate alone
+# is reachable by anyone who reads the page source. This puts a second,
+# server-side lock in front of the page so strangers and scanners never
+# load it at all.
+#
+# Password file lives ONE LEVEL ABOVE httpdocs so it can never be fetched
+# over HTTP. If this path is wrong Apache returns 500 for admin.html only
+# (the block is scoped to that one file) and names the path it tried in
+# /logs/error_log.
+<Files "admin.html">
+  AuthType Basic
+  AuthName "Suphan Motorsale - staff only"
+  AuthUserFile /var/www/vhosts/suphanmotorsale.com/.htpasswd
+  Require valid-user
+</Files>
+
+# Belt and braces: Apache's stock config already denies .ht* , but this
+# file is the one thing that must never be readable.
+<FilesMatch "^\.ht">
+  Require all denied
+</FilesMatch>
+
 # ---- Misc -------------------------------------------------------
 # The admin page is already noindex; keep directory listings off too.
 Options -Indexes

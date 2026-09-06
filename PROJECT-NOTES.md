@@ -435,9 +435,61 @@ uses it.
 4. [x] ~~Verify frame `Cache-Control`~~ — immutable header confirmed live
 5. [x] ~~apex + http 301 to `https://www.`~~ — all three variants confirmed
 6. [x] ~~All 21 sitemap URLs return 200~~ — checked one by one
-7. [ ] **Google Search Console** → verify ownership → submit `sitemap.xml`
+7. [x] ~~Harden the admin page~~ — done 2026-09-06, see below
+8. [ ] **Google Search Console** → verify ownership → submit `sitemap.xml`
        (owner action: needs his Google login)
-8. [ ] Rotate the hosting password — it was pasted into a chat transcript
+9. [ ] **Owner action: set a strong `ADMIN_PASSPHRASE`** — see below
+10. [ ] **Owner action: redeploy the Apps Script** so the throttle goes live
+11. [ ] Rotate the hosting password — it was pasted into a chat transcript
+
+## Admin page security — hardened 2026-09-06
+
+Going live exposed `admin.html`, and the customer names and phone numbers
+behind it, to the whole internet for the first time.
+
+**The thing to understand before changing any of this:** locking down
+`admin.html` does NOT protect the data. `config.js` hands the Apps Script
+`/exec` URL to every visitor — it has to, because the customer's browser posts
+bookings straight to it. So anyone can read that URL from the page source and
+POST `{"action":"list","pass":...}` to Google directly, never touching
+`admin.html`. **The passphrase is the only real lock.** Everything else is depth.
+
+Three changes:
+
+1. **Failed-auth throttle** in `checkPass()`, `scripts/apps-script/Code.gs`.
+   10 failures inside a rolling 10-minute window locks *reads* and returns a
+   new `locked_out` error. Apps Script never exposes the caller's IP, so the
+   counter is necessarily **global** — an attacker can hold staff out for 10
+   minutes at a time. Accepted deliberately: it is a backstop behind a strong
+   passphrase, not the primary control.
+   `handleCreate` does not call `checkPass` (verified), so **a lockout can
+   never stop a customer booking.** Thai copy for `locked_out` is in
+   `ERROR_TEXT`, `admin.html`.
+
+2. **HTTP Basic auth on `admin.html`** via `.htaccess`, so strangers and
+   scanners never load the page. Username `suphanstaff`; password is in Kenji's
+   password manager, **not in this repo** (`.htpasswd` is gitignored). The
+   password file sits at the **vhost root, one level above `httpdocs`**, so it
+   is not fetchable over HTTP. `AuthUserFile` is
+   `/var/www/vhosts/suphanmotorsale.com/.htpasswd` — confirmed correct, since
+   auth actually works. Staff now type two passwords: the browser one, then the
+   passphrase.
+
+3. **`robots.txt` no longer names `admin.html`.** The old `Disallow` line hid
+   it from Google while advertising it to every human who read the file. The
+   page is `noindex` and now 401s, so nothing was lost.
+
+### Careful: Python text-mode writes corrupt `.htaccess`
+
+Editing these files with `io.open(p,'w')` on Windows silently rewrites every LF
+as CRLF. It bit this repo twice in one sitting: 121 CRs went into `.htaccess`
+and were uploaded before being caught, and this file reached 478. A stray CR on the `AuthUserFile` path breaks Apache. `.gitattributes` pins LF **in
+git**, but does nothing for a file uploaded straight over FTP. Count CR bytes in the file before uploading, or write bytes rather than text.
+
+### Verified live after the change
+`admin.html` 401 without credentials, 200 with, 401 with a wrong password;
+`.htpasswd` 403; the other 20 pages still 200; hero frames still `immutable`;
+`robots.txt` clean.
 
 Post-deploy verification actually run, for reference: every sitemap URL 200;
 boundary frames (0001/0472, both tiers) 200 and decoding to real image data

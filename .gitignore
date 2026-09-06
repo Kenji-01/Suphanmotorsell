@@ -1,1 +1,4 @@
 frames/
+
+# Never commit the admin password hash
+.htpasswd

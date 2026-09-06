@@ -61,6 +61,24 @@ var FORCE_TEXT_COLS = { phone: true, plate: true };
 var PROP_PASSPHRASE = 'ADMIN_PASSPHRASE';
 var PROP_NOTIFY = 'NOTIFY_EMAIL';   // optional
 
+/* Failed-auth throttle — see checkPass().
+
+   The site is public, and config.js hands every visitor the /exec URL
+   (it has to: the customer's browser posts bookings straight to it).
+   So the passphrase is not protected by anything on the web server —
+   anyone can POST {"action":"list","pass":...} here all day. Before
+   this, nothing counted those attempts.
+
+   Apps Script never exposes the caller's IP, so a per-client limit is
+   impossible; this counter is necessarily GLOBAL. The cost of that is
+   real and worth stating: an attacker can hold staff out for
+   AUTH_LOCK_MIN minutes at a time. That is acceptable only because
+   this is a backstop behind a strong ADMIN_PASSPHRASE, never the
+   primary control. Rotate the passphrase, don't lean on this. */
+var AUTH_MAX_FAILS = 10;            // failures before reads lock
+var AUTH_LOCK_MIN = 10;             // rolling window, minutes
+var AUTH_CACHE_KEY = 'failed_auth';
+
 
 /* =====================================================================
    Entry points
@@ -320,7 +338,22 @@ function getPassphrase() {
 function checkPass(body) {
   var expected = getPassphrase();
   if (!expected) return json({ ok: false, error: 'not_configured' });
-  if (String(body.pass || '') !== expected) return json({ ok: false, error: 'unauthorized' });
+
+  /* Only handleList and handleSetCalled reach here. handleCreate
+     deliberately does not, so a lockout can never stop a customer
+     from booking — it only ever holds back the admin list. */
+  var cache = CacheService.getScriptCache();
+  var fails = Number(cache.get(AUTH_CACHE_KEY) || 0);
+  if (fails >= AUTH_MAX_FAILS) return json({ ok: false, error: 'locked_out' });
+
+  if (String(body.pass || '') !== expected) {
+    // put() with a fresh TTL each time, so the window rolls forward
+    // while an attacker keeps trying rather than expiring mid-attack.
+    cache.put(AUTH_CACHE_KEY, String(fails + 1), AUTH_LOCK_MIN * 60);
+    return json({ ok: false, error: 'unauthorized' });
+  }
+
+  if (fails) cache.remove(AUTH_CACHE_KEY);   // a real login clears it
   return null;
 }
 
