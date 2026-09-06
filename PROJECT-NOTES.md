@@ -379,8 +379,7 @@ State as of 2026-09-06, all verified by measurement:
   both apex and `www` resolve to 122.155.21.123.
 - TLS is already issued — Let's Encrypt, SAN covers both apex and `www`,
   valid to 2026-12-01. Plesk should auto-renew it.
-- The docroot still serves the **Plesk default placeholder page**. Nothing of
-  ours is uploaded yet.
+- **The site is LIVE as of 2026-09-06.** Deployed over FTP (see below).
 
 ### What gets deployed, and what does not
 
@@ -406,21 +405,44 @@ The cache rule that actually matters: `frame_NNNN.webp` gets
 just to scroll the front page. HTML is `no-cache` so edits go live at once; CSS/JS
 get 7 days because they already carry the hand-bumped `?v=N`.
 
-**Caveat, unresolved:** the server answers `Server: nginx`. If Plesk's *Smart
-static files processing* is on, nginx serves static files itself and never reads
-`.htaccess` — which would silently drop exactly the frame-caching rule that
-matters most. After deploying, check `Cache-Control` on a frame in the browser's
-Network tab. If it is missing, either turn that option off under
-*Websites & Domains → Apache & nginx Settings*, or restate the rules in the nginx
-directives box there.
+**Caveat — checked, and it did NOT bite.** The server answers `Server: nginx`,
+so the worry was that Plesk's *Smart static files processing* would serve static
+files without ever reading `.htaccess`, silently dropping the frame-caching rule.
+Measured against the live server: `frame_0001.webp` returns
+`Cache-Control: public, max-age=31536000, immutable`. Apache is processing the
+file. Re-check this if the host ever changes that setting.
+
+### Deploying — FTP works, and it is fast
+
+Plesk's File Manager is not needed. Plain FTP to `122.155.21.123` works
+(ProFTPD, passive mode fine). **FTPS with `--ssl-reqd` times out** — the control
+channel is cleartext, so treat the password as exposed on the wire and do not
+reuse it anywhere else. Port 22/SSH is closed, so there is no rsync/scp option.
+
+The whole 1,108-file / 48 MB site uploads in **~90 seconds** if you go one
+directory at a time rather than one file at a time — a single `curl -T "{a,b,c}"`
+per directory reuses the control connection. File-at-a-time would be 1,108
+separate logins. `--ftp-create-dirs` makes the remote tree on the way.
+
+Uploading `index.html` overwrites Plesk's default page, so nothing needs deleting
+first. **Do not delete `.well-known/`** in the docroot — Let's Encrypt renewal
+uses it.
 
 ### Launch checklist
 1. [x] ~~Buy domain~~ — `suphanmotorsale.com`, DNS live 2026-09-06
 2. [x] ~~Hosting~~ — Chaiyo Plesk, provisioned 2026-09-06
-3. [ ] Upload the site to `httpdocs/` (delete Plesk's default `index.html` first)
-4. [ ] Verify `Cache-Control` on a hero frame — see the nginx caveat above
-5. [ ] Confirm apex and http both 301 to `https://www.` 
-6. [ ] Google Search Console → verify ownership → submit `sitemap.xml`
+3. [x] ~~Upload the site~~ — deployed 2026-09-06, all 1,108 files verified present
+4. [x] ~~Verify frame `Cache-Control`~~ — immutable header confirmed live
+5. [x] ~~apex + http 301 to `https://www.`~~ — all three variants confirmed
+6. [x] ~~All 21 sitemap URLs return 200~~ — checked one by one
+7. [ ] **Google Search Console** → verify ownership → submit `sitemap.xml`
+       (owner action: needs his Google login)
+8. [ ] Rotate the hosting password — it was pasted into a chat transcript
+
+Post-deploy verification actually run, for reference: every sitemap URL 200;
+boundary frames (0001/0472, both tiers) 200 and decoding to real image data
+(lg 1920x823, pt 724x1200); `.htaccess` and directory listings both 403;
+security headers present; HTML `no-cache`, CSS 7 days, frames immutable.
 
 ---
 
