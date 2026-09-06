@@ -347,22 +347,80 @@ both CSS and JS.
 
 ---
 
-## SEO — done, but pending a real domain
+## SEO — done, domain confirmed 2026-09-06
 
 Every public page has: unique `<title>` + meta description, canonical URL,
 Open Graph + Twitter Card tags. Homepage has `MotorcycleDealer` JSON-LD with both
-branches. Plus `robots.txt` (disallows `/admin.html`) and `sitemap.xml` (7 pages).
+branches. Plus `robots.txt` (disallows `/admin.html`) and `sitemap.xml` (21 URLs).
 
-**All of it points at the placeholder `https://www.suphanmotorsale.com`.**
-Once the real domain is registered, find-and-replace that string across all HTML
-plus `robots.txt` and `sitemap.xml`.
+**The domain that was written in as a placeholder turned out to be the one that
+was bought** — `https://www.suphanmotorsale.com`. No find-and-replace was ever
+needed; every canonical, og:url, `robots.txt` and `sitemap.xml` entry was already
+correct. Verified 2026-09-06.
 
-### Launch checklist (not started)
-1. Buy domain. `.com` is simple; `.co.th` signals official Thai business but
-   requires DBD/ทะเบียนพาณิชย์ documents.
-2. Deploy folder to Cloudflare Pages (free, auto-HTTPS, edge presence in Bangkok
-   → fast for TH + neighbouring countries). Add custom domain there.
-3. Google Search Console → verify ownership → submit `sitemap.xml`.
+## Hosting — live host provisioned 2026-09-06
+
+Shared Plesk hosting, **not** Cloudflare Pages as originally planned.
+
+| | |
+|---|---|
+| Provider | Chaiyo Hosting — "Cloud Linux 1", 1 GB quota, ฿1,500/year |
+| Server | `cloud-linux-10.chaiyohosting.com` (122.155.21.124) |
+| Control panel | Plesk, port 8443 |
+| Docroot | `httpdocs/` |
+| Renews | 2029-09-02 |
+
+**Credentials are NOT in this repo and must never be committed here** — this
+repo is on GitHub. Panel/FTP login lives in the owner's password manager.
+
+State as of 2026-09-06, all verified by measurement:
+
+- DNS is live and correct. Nameservers are `cloud-ns39/40.chaiyohosting.com`;
+  both apex and `www` resolve to 122.155.21.123.
+- TLS is already issued — Let's Encrypt, SAN covers both apex and `www`,
+  valid to 2026-12-01. Plesk should auto-renew it.
+- The docroot still serves the **Plesk default placeholder page**. Nothing of
+  ours is uploaded yet.
+
+### What gets deployed, and what does not
+
+The deploy payload is 1,108 files / 48 MB — comfortably inside the 1 GB quota,
+but note **36 MB of it is the 944 hero frames**, so a naive re-upload is slow.
+
+Excluded from the server on purpose: `.git/`, `.gitignore`, `archive/`,
+`scripts/`, `PROJECT-NOTES.md`. `scripts/` matters most — it holds
+`apps-script/Code.gs` and `SETUP-TH.md`, which have no business being publicly
+fetchable. Three files mention `scripts/` in prose (`admin.html` setup notice,
+`bookings.js` and `config.js` comments) but nothing ever *fetches* it, so
+excluding it breaks nothing.
+
+### `.htaccess` — added 2026-09-06
+
+New file at the repo root, deployed with the site. It sets MIME types (incl.
+`image/webp`), DEFLATE on text only, cache lifetimes, `nosniff`/`Referrer-Policy`/
+`X-Frame-Options`, `Options -Indexes`, and 301s http→https and apex→www to match
+the canonical tags.
+
+The cache rule that actually matters: `frame_NNNN.webp` gets
+`max-age=31536000, immutable`. Without it every repeat visitor re-downloads 36 MB
+just to scroll the front page. HTML is `no-cache` so edits go live at once; CSS/JS
+get 7 days because they already carry the hand-bumped `?v=N`.
+
+**Caveat, unresolved:** the server answers `Server: nginx`. If Plesk's *Smart
+static files processing* is on, nginx serves static files itself and never reads
+`.htaccess` — which would silently drop exactly the frame-caching rule that
+matters most. After deploying, check `Cache-Control` on a frame in the browser's
+Network tab. If it is missing, either turn that option off under
+*Websites & Domains → Apache & nginx Settings*, or restate the rules in the nginx
+directives box there.
+
+### Launch checklist
+1. [x] ~~Buy domain~~ — `suphanmotorsale.com`, DNS live 2026-09-06
+2. [x] ~~Hosting~~ — Chaiyo Plesk, provisioned 2026-09-06
+3. [ ] Upload the site to `httpdocs/` (delete Plesk's default `index.html` first)
+4. [ ] Verify `Cache-Control` on a hero frame — see the nginx caveat above
+5. [ ] Confirm apex and http both 301 to `https://www.` 
+6. [ ] Google Search Console → verify ownership → submit `sitemap.xml`
 
 ---
 
@@ -377,7 +435,8 @@ plus `robots.txt` and `sitemap.xml`.
 - [ ] **Owner action: run `scripts/apps-script/SETUP-TH.md`** to switch the
       booking backend on. Code is built and tested; it needs the owner's Google
       account to deploy. Until then the forms tell customers to phone instead.
-- [ ] Domain + deploy + Search Console
+- [x] ~~Domain~~ — `suphanmotorsale.com` live, DNS + TLS verified 2026-09-06
+- [ ] Upload to the Plesk host, then Search Console — see the Hosting section
 - [ ] Model categories on `models.html` were inferred, not supplied — verify
       (esp. UC3, labelled รถไฟฟ้า)
 

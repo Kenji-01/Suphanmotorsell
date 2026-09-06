@@ -1,0 +1,96 @@
+# ===================================================================
+# SUPHAN MOTORSALE — Apache config for the Plesk (Cloud Linux) host
+#
+# NOTE: this host runs nginx in front of Apache. If Plesk has
+# "Smart static files processing" enabled, nginx serves static files
+# itself and NEVER reads this file. If the cache headers below do not
+# show up in the browser's Network tab, either turn that option off in
+#   Plesk → Websites & Domains → Apache & nginx Settings
+# or paste the equivalent directives into the nginx settings box there.
+# ===================================================================
+
+# ---- MIME types -------------------------------------------------
+# The whole hero animation is WebP; an old server that does not know
+# the type would send it as text and the canvas would stay blank.
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType application/json .json
+  AddType image/svg+xml .svg
+</IfModule>
+
+# ---- Compression ------------------------------------------------
+# Text only. WebP is already compressed — running it through DEFLATE
+# burns CPU and makes the file marginally bigger.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml application/xml
+</IfModule>
+
+# ---- Caching ----------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML: always revalidate, so edits go live immediately.
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # CSS/JS carry a ?v=N cache-buster that is bumped by hand on every
+  # change (see PROJECT-NOTES.md), so a week is safe.
+  ExpiresByType text/css "access plus 7 days"
+  ExpiresByType application/javascript "access plus 7 days"
+
+  # promos.json is edited by marketing staff and is fetched with
+  # cache:'no-store' by promos.js — keep the server honest too.
+  ExpiresByType application/json "access plus 0 seconds"
+
+  # Photos: long enough to matter, short enough that a swapped
+  # storefront photo appears within the week.
+  ExpiresByType image/webp "access plus 7 days"
+  ExpiresByType image/jpeg "access plus 7 days"
+  ExpiresByType image/png  "access plus 7 days"
+  ExpiresByType image/svg+xml "access plus 7 days"
+</IfModule>
+
+# The 472 hero frames are the exception: they are a fixed, numbered
+# sequence that only changes if the master clip is re-sliced. Cache
+# them for a year and mark them immutable, otherwise every repeat
+# visitor re-downloads 36 MB to scroll the front page.
+<IfModule mod_headers.c>
+  <FilesMatch "^frame_\d{4}\.webp$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # No-cache for HTML, overriding any proxy default.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  # Modest hardening. No CSP here: the pages load Google Fonts, unpkg
+  # (lucide) and post to script.google.com, so a wrong policy would
+  # break the booking forms and the icons.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# ---- Canonical host ---------------------------------------------
+# Every canonical/og:url tag in the site says https://www.suphanmotorsale.com,
+# so send apex and http traffic there. Prefer doing this in Plesk's own
+# Hosting Settings if these rules turn out to be bypassed by nginx.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https  (HTTPS var is unreliable behind the Plesk proxy,
+  # so trust X-Forwarded-Proto as well)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://www.suphanmotorsale.com/$1 [R=301,L]
+
+  # apex -> www
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^(.*)$ https://www.suphanmotorsale.com/$1 [R=301,L]
+</IfModule>
+
+# ---- Misc -------------------------------------------------------
+# The admin page is already noindex; keep directory listings off too.
+Options -Indexes
