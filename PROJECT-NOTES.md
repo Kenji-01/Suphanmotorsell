@@ -438,8 +438,10 @@ uses it.
 7. [x] ~~Harden the admin page~~ — done 2026-09-06, see below
 8. [ ] **Google Search Console** → verify ownership → submit `sitemap.xml`
        (owner action: needs his Google login)
-9. [ ] **Owner action: set a strong `ADMIN_PASSPHRASE`** — see below
-10. [ ] **Owner action: redeploy the Apps Script** so the throttle goes live
+9. [x] ~~Set a strong `ADMIN_PASSPHRASE`~~ — 27 random chars, 2026-09-06
+10. [x] ~~Redeploy the Apps Script~~ — throttle confirmed live 2026-09-06:
+        10 wrong passphrases returned `unauthorized`, the 11th returned
+        `locked_out`, exactly as `AUTH_MAX_FAILS` specifies
 11. [ ] Rotate the hosting password — it was pasted into a chat transcript
 
 ## Admin page security — hardened 2026-09-06
