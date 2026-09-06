@@ -261,6 +261,45 @@ body {
 .model-card:hover .model-card__name { color: var(--brand-red); }
 .model-card:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 6px; border-radius: 12px; }
 
+/* Sold out. The bike stays listed and its page stays live on purpose: a
+   customer arriving from Google should still be able to read the specs and
+   ask when it is back. The grid just has to say so at a glance, before the
+   click. */
+.model-card__badge {
+  position: absolute;   /* .model-card__media is already position: relative */
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: var(--white);
+  font-size: .75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+.model-card[data-stock="out"] .model-card__media img {
+  filter: grayscale(.55);
+  opacity: .62;
+}
+/* No lift on hover - that motion reads as "available, go on". */
+.model-card[data-stock="out"]:hover .model-card__media img { transform: none; }
+
+/* The same message on the model's own page, for anyone who lands there
+   directly from search and never sees the grid badge. */
+.bike__soldout {
+  margin: 0 0 clamp(18px, 2.5vw, 26px);
+  padding: 14px 18px;
+  border: 1px solid #E3D4A6;
+  border-radius: 10px;
+  background: #FFF8EA;
+  color: #7A5B15;
+  font-size: .9375rem;
+  line-height: 1.75;
+}
+.bike__soldout strong { display: block; font-weight: 600; }
+.bike__soldout a { color: inherit; font-weight: 500; }
+
 /* -------------------------------------------------------------------
    Accessible-but-invisible text
 ------------------------------------------------------------------- */
