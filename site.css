@@ -121,6 +121,15 @@ body {
 .nav__link[aria-current="page"] { color: var(--brand-red); }
 .nav__link[aria-current="page"]::after { transform: scaleX(1); }
 
+/* A menu item for a service that is not open yet (currently ทดลองขับ).
+   It is a <span>, not a link, so it cannot lead anyone into a booking
+   form the shop is not taking yet. Greyed, no hover underline, and the
+   title tooltip says why on desktop. To reopen, swap the span back to
+   <a class="nav__link" href="test-drive.html"> on every page. */
+.nav__link--soon { color: var(--muted); cursor: default; }
+.nav__link--soon:hover { color: var(--muted); }
+.nav__link--soon::after { display: none; }
+
 .nav__link--icon { display: inline-flex; align-items: center; gap: 7px; }
 .nav__link--icon svg { width: 16px; height: 16px; stroke-width: 2.1; flex: 0 0 auto; }
 
