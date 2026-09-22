@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Tiro+Devanagari+Marathi:ital@0;1&family=Noto+Sans+Thai:wght@400;500;600&family=Kanit:ital,wght@0,300;0,400;0,500;0,600;1,800;1,900&family=Archivo+Black&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="site.css?v=11" />
+<link rel="stylesheet" href="site.css?v=12" />
 
 <style>
   :root {
@@ -98,13 +98,23 @@
     <div class="booking-page__wrap">
 
       <nav class="booking-tabs" aria-label="เลือกประเภทการจอง">
-        <a href="test-drive.html" aria-current="page">จองทดลองขับ</a>
+        <span class="booking-tabs__soon" aria-disabled="true" title="ยังไม่เปิดให้บริการ">จองทดลองขับ</span>
         <a href="service.html">จองเข้ารับบริการ</a>
       </nav>
 
       <h1 class="sr-only">จองทดลองขับรถจักรยานยนต์ฮอนด้า</h1>
 
-      <div id="td-form-block">
+      <div class="bk-closed">
+        <strong>ยังไม่เปิดรับจองทดลองขับ</strong>
+        <span class="nb">สนใจรุ่นไหน โทรสอบถามได้ที่</span>
+        <a href="tel:+66867981091">086-798-1091</a>
+        <span class="nb">หรือ<a href="service.html">จองเข้ารับบริการ</a>ได้ตามปกติ</span>
+      </div>
+
+      <!-- Test-drive booking is not open yet. The form is kept, hidden, so
+           reopening is: delete the .bk-closed block above, remove `hidden`
+           here, and turn the greyed tabs back into links. -->
+      <div id="td-form-block" hidden>
 
         <div id="td-error" class="bk-error" role="alert"></div>
 

@@ -358,6 +358,30 @@ body {
 }
 .booking-tabs a:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 3px; border-radius: 2px; }
 
+/* A booking type that is not open yet (currently จองทดลองขับ). A span, not
+   a link, matching the greyed ทดลองขับ item in the main menu. */
+.booking-tabs__soon {
+  padding-bottom: 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #C3CAD1;
+  cursor: default;
+}
+
+/* Shown in place of a booking form that is not taking bookings yet. */
+.bk-closed {
+  padding: 22px 24px;
+  border: 1px solid #E3D4A6;
+  border-radius: 12px;
+  background: #FFF8EA;
+  color: #7A5B15;
+  font-size: .9375rem;
+  line-height: 1.8;
+  text-align: center;
+}
+.bk-closed strong { display: block; margin-bottom: 4px; font-size: 1.0625rem; font-weight: 600; }
+.bk-closed a { color: inherit; font-weight: 500; }
+
 .bk-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
